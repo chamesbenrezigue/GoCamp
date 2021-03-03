@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Reservation Materiel{% endblock %}
+
+{% block body %}
+    <h1>Create new ReservationMateriel</h1>
+
+    {{ include('renting_front/reservation_materiel/_form.html.twig') }}
+
+    <a href="{{ path('renting_front') }}">back to list</a>
+{% endblock %}

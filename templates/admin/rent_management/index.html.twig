@@ -3,5 +3,70 @@
 {% block title %}Hello RentManagementController!{% endblock %}
 
 {% block body %}
+    <h1>Liste de Materiel </h1>
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Disponibility</th>
+            <th>Price</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for materiel in materiels %}
+            <tr>
+                <td>{{ materiel.id }}</td>
+                <td>{{ materiel.name }}</td>
+                <td>{{ materiel.description }}</td>
+                <td>{{ materiel.disponibility ? 'Yes' : 'No' }}</td>
+                <td>{{ materiel.price }}</td>
+                <td>
+                    <a href="{{ path('materiel_show', {'id': materiel.id}) }}">show</a>
+                    <a href="{{ path('materiel_edit', {'id': materiel.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ path('materiel_new') }}">Create new</a>
+
+    <h1>ReservationMateriel </h1>
+
+    <table class="table">
+
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>DateCreation</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation_materiel in reservation_materiels %}
+        <tr>
+            <td>{{ reservation_materiel.id }}</td>
+            <td>{{ reservation_materiel.Name }}</td>
+            <td>{{ reservation_materiel.DateCreation ? reservation_materiel.DateCreation|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                <a href="{{ path('reservation_materiel_show', {'id': reservation_materiel.id}) }}">show</a>
+                <a href="{{ path('reservation_materiel_edit', {'id': reservation_materiel.id}) }}">edit</a>
+                <a href="{{ path('reservation_materiel_delete', {'id': reservation_materiel.id}) }}">delete</a>
+
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">no records found</td>
+        </tr>
+{% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
