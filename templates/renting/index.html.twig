@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Renting{% endblock %}
+
+{% block body %}
+    <h1>Material</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th>Availability</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for material in materials %}
+            <tr>
+                <td>{{ material.id }}</td>
+                <td>{{ material.name }}</td>
+                <td>{{ material.description }}</td>
+                <td>{{ material.prix }}</td>
+                <td>{{ material.availability ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('material_show_front', {'id': material.id}) }}">show</a>
+                    {% if material.availability==true %}
+                    <a href="{{ path('material_reservation_Front', {'id': material.id}) }}">Rent</a>
+                    {% endif %}
+
+                        </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h1>MaterialReservation index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name of Material</th>
+            <th>Date Start</th>
+            <th>Date End</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for material_reservation in material_reservations %}
+            <tr>
+                <td>{{ material_reservation.id }}</td>
+                <td>{% for material in materials %}
+                        {% if material_reservation.material.id==material.id %}
+                        {{ material.name }}
+                        {% endif %}
+                    {% endfor %}
+
+
+                </td>
+
+
+                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('material_reservation_show_front', {'id': material_reservation.id}) }}">show Reservation</a>
+                    <a href="{{ path('material_reservation_edit_front', {'id': material_reservation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

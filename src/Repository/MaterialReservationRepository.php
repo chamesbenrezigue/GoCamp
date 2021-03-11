@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Material;
+use App\Entity\MaterialReservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Material|null find($id, $lockMode = null, $lockVersion = null)
- * @method Material|null findOneBy(array $criteria, array $orderBy = null)
- * @method Material[]    findAll()
- * @method Material[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MaterialReservation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MaterialReservation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MaterialReservation[]    findAll()
+ * @method MaterialReservation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MaterielRepository extends ServiceEntityRepository
+class MaterialReservationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Material::class);
+        parent::__construct($registry, MaterialReservation::class);
     }
 
     // /**
-    //  * @return Material[] Returns an array of Material objects
+    //  * @return MaterialReservation[] Returns an array of MaterialReservation objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class MaterielRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Material
+    public function findOneBySomeField($value): ?MaterialReservation
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')
