@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class RentingController extends AbstractController
 {
@@ -50,8 +51,19 @@ class RentingController extends AbstractController
             $us = $entityManager->getRepository(User::class)->find(1);
             $materialReservation->setMaterial($abn);
             $materialReservation->setUser($us);
-            $ax = $entityManager->getRepository(Material::class)->find($id)->setAvailability(false);
-            $entityManager->persist($materialReservation,$ax);
+            $bx = $entityManager->getRepository(Material::class)->find($id)->getnbrmatrres();
+            $cx = $entityManager->getRepository(Material::class)->find($id)->getQuantity();
+            if($cx>$bx){
+            $ax = $entityManager->getRepository(Material::class)->find($id)->setnbrmatrres($bx+1);}
+            $zx = $entityManager->getRepository(Material::class)->find($id)->getnbrmatrres();
+
+            if($zx==$cx){
+                $dx = $entityManager->getRepository(Material::class)->find($id)->setAvailability(false);
+            }
+            else{                $dx = $entityManager->getRepository(Material::class)->find($id)->setAvailability(true);
+            }
+
+                $entityManager->persist($materialReservation,$ax,$dx);
             $entityManager->flush();
             return $this->redirectToRoute('renting');
         }
@@ -96,7 +108,10 @@ class RentingController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$materialReservation->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $ax = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->setAvailability(true);
-            $entityManager->persist($ax);
+            $bx = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->getNbrmatrres();
+            $cx = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->setNbrmatrres($bx-1);
+
+            $entityManager->persist($ax,$cx);
             $entityManager->remove($materialReservation);
             $entityManager->flush();
 

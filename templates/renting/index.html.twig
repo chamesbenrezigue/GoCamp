@@ -65,8 +65,8 @@
                 </td>
 
 
-                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('material_reservation_show_front', {'id': material_reservation.id}) }}">show Reservation</a>
                     <a href="{{ path('material_reservation_edit_front', {'id': material_reservation.id}) }}">edit</a>
@@ -79,5 +79,4 @@
         {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

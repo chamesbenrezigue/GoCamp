@@ -11,6 +11,8 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Quantity</th>
+                <th>NumReservation</th>
                 <th>Prix</th>
                 <th>Availability</th>
                 <th>actions</th>
@@ -22,6 +24,8 @@
                 <td>{{ material.id }}</td>
                 <td>{{ material.name }}</td>
                 <td>{{ material.description }}</td>
+                <td>{{ material.quantity }}</td>
+                <td>{{ material.nbrmatrres }}</td>
                 <td>{{ material.prix }}</td>
                 <td>{{ material.availability ? 'Yes' : 'No' }}</td>
                 <td>
@@ -39,13 +43,14 @@
     </table>
 
     <a href="{{ path('material_new') }}">Create new</a>
-    <h1>MaterialReservation index</h1>
+    <h1>MaterialReservation </h1>
 
     <table class="table">
         <thead>
         <tr>
             <th>Id</th>
             <th>Name of Material</th>
+            <th>User name</th>
             <th>Date Start</th>
             <th>Date End</th>
             <th>actions</th>
@@ -60,13 +65,18 @@
                             {{ material.name }}
                         {% endif %}
                     {% endfor %}
-
-
+                </td>
+                <td>
+                    {% for user in users %}
+                        {% if material_reservation.user.id==user.id %}
+                            {{ user.lastName }}
+                        {% endif %}
+                    {% endfor %}
                 </td>
 
 
-                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('material_reservation_show_back', {'id': material_reservation.id}) }}">show Reservation</a>
                     <a href="{{ path('material_reservation_edit_back', {'id': material_reservation.id}) }}">edit</a>
@@ -79,5 +89,8 @@
         {% endfor %}
         </tbody>
     </table>
+<div class="pagination justify-content-center ">
+{{ knp_pagination_render(material_reservations) }}
+</div>
 
 {% endblock %}

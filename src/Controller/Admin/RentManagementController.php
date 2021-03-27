@@ -8,6 +8,8 @@ use App\Form\MaterialReservationType;
 use App\Form\MaterialType;
 use App\Repository\MaterialReservationRepository;
 use App\Repository\MaterielRepository;
+use App\Repository\UserRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +23,19 @@ class RentManagementController extends AbstractController
     /**
      * @Route("/material", name="material_index", methods={"GET"})
      */
-    public function index(MaterielRepository $materielRepository,MaterialReservationRepository $materialReservationRepository): Response
+    public function index(MaterielRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request,PaginatorInterface $paginator,UserRepository $userRepository): Response
     {
+        $MR = $this->getDoctrine()->getRepository(MaterialReservation::class)->findAll();
+        $materialReservationRepository = $paginator->paginate(
+            $MR,
+            $request->query->getInt('page', 1),
+            2
+        );
         return $this->render('material/index.html.twig', [
             'materials' => $materielRepository->findAll(),
-            'material_reservations' => $materialReservationRepository->findAll(),
+            'material_reservations' => $materialReservationRepository,
+            'users' => $userRepository->findAll(),
+
         ]);
     }
 
@@ -130,7 +140,9 @@ class RentManagementController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$materialReservation->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $ax = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->setAvailability(true);
-            $entityManager->persist($ax);
+            $bx = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->getNbrmatrres();
+            $cx = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->setNbrmatrres($bx-1);
+            $entityManager->persist($ax,$cx);
             $entityManager->remove($materialReservation);
             $entityManager->flush();
 

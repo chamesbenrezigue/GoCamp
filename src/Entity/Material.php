@@ -32,6 +32,18 @@ class Material
      */
     private $prix;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantity;
+
+    /**
+ * @ORM\Column(type="integer")
+ */
+    private $nbrmatrres;
+
+
+
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default":true})
@@ -90,5 +102,36 @@ class Material
         $this->availability = $availability;
 
         return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNbrmatrres()
+    {
+        return $this->nbrmatrres;
+    }
+
+    /**
+     * @param mixed $nbrmatrres
+     */
+    public function setNbrmatrres($nbrmatrres): void
+    {
+        $this->nbrmatrres = $nbrmatrres;
     }
 }

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\MaterialReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=MaterialReservationRepository::class)
@@ -19,11 +21,13 @@ class MaterialReservation
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual("today")
      */
     private $dateStart;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Expression("value > this.getDateStart()",message="Date end shoud be greater than date start")
      */
     private $dateEnd;
 
