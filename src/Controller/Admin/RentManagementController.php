@@ -29,7 +29,7 @@ class RentManagementController extends AbstractController
         $materialReservationRepository = $paginator->paginate(
             $MR,
             $request->query->getInt('page', 1),
-            2
+            3
         );
         return $this->render('material/index.html.twig', [
             'materials' => $materielRepository->findAll(),
@@ -50,6 +50,7 @@ class RentManagementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $material->setNbrmatrres(0);
             $entityManager->persist($material);
             $entityManager->flush();
 

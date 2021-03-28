@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Image</th>
                 <th>Description</th>
                 <th>Quantity</th>
                 <th>NumReservation</th>
@@ -23,6 +24,9 @@
             <tr>
                 <td>{{ material.id }}</td>
                 <td>{{ material.name }}</td>
+                <td>
+                    <img  width="50" height="50"src="{{ asset('uploads/images/products/'~ material.image~'') }}">
+                </td>
                 <td>{{ material.description }}</td>
                 <td>{{ material.quantity }}</td>
                 <td>{{ material.nbrmatrres }}</td>
