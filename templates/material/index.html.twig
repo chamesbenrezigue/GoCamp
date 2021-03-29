@@ -47,8 +47,71 @@
     </table>
 
     <a href="{{ path('material_new') }}">Create new</a>
-    <h1>MaterialReservation </h1>
 
+    {{ form_start(form) }}
+    <div class="form-row align-items_end">
+        <div class="col">
+            {{ form_row(form.dateS) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.dateE) }}
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" >Rechercher</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end (form) }}
+    <h1>Material Reservation </h1>
+
+    {% if reservation %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name of Material</th>
+                <th>User name</th>
+                <th>Date Start</th>
+                <th>Date End</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for material_reservation in reservation %}
+                <tr>
+                    <td>{{ material_reservation.id }}</td>
+                    <td>{% for material in materials %}
+                            {% if material_reservation.material.id==material.id %}
+                                {{ material.name }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for user in users %}
+                            {% if material_reservation.user.id==user.id %}
+                                {{ user.lastName }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+
+
+                    <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d') : '' }}</td>
+                    <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('material_reservation_show_back', {'id': material_reservation.id}) }}">show Reservation</a>
+                        <a href="{{ path('material_reservation_edit_back', {'id': material_reservation.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      
+{% else %}
     <table class="table">
         <thead>
         <tr>
@@ -96,5 +159,5 @@
 <div class="pagination justify-content-center ">
 {{ knp_pagination_render(material_reservations) }}
 </div>
-
+    {% endif %}
 {% endblock %}

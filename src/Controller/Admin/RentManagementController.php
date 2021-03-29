@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Material;
+use App\Entity\DateSearch;
 use App\Entity\MaterialReservation;
+use App\Entity\Material;
+use App\Form\DateSearchType;
 use App\Form\MaterialReservationType;
 use App\Form\MaterialType;
 use App\Repository\MaterialReservationRepository;
@@ -21,20 +23,34 @@ use Symfony\Component\Routing\Annotation\Route;
 class RentManagementController extends AbstractController
 {
     /**
-     * @Route("/material", name="material_index", methods={"GET"})
+     * @Route("/material", name="material_index", methods={"GET","POST"})
      */
     public function index(MaterielRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request,PaginatorInterface $paginator,UserRepository $userRepository): Response
     {
+//recherche
+        $dateSearch = new DateSearch();
+        $form = $this->createForm(DateSearchType::class,$dateSearch);
+        $form->handleRequest($request);
+        $reservation=[];
+        if($form->isSubmitted() && $form->isValid()){
+            $minDate =$dateSearch->getDateS();
+            $maxDate =$dateSearch->getDateE();
+            $reservation = $this->getDoctrine()->getRepository(MaterialReservation::class)->findByDateRange($minDate,$maxDate);
+        }
+        //pagination
+        else{
         $MR = $this->getDoctrine()->getRepository(MaterialReservation::class)->findAll();
         $materialReservationRepository = $paginator->paginate(
             $MR,
             $request->query->getInt('page', 1),
             3
-        );
+        );}
         return $this->render('material/index.html.twig', [
             'materials' => $materielRepository->findAll(),
             'material_reservations' => $materialReservationRepository,
             'users' => $userRepository->findAll(),
+            'form'=>$form->createView(),
+            'reservation'=>$reservation
 
         ]);
     }
@@ -133,6 +149,7 @@ class RentManagementController extends AbstractController
             'material_reservation' => $materialReservation,
         ]);
     }
+
     /**
      * @Route("/reservation/{id}", name="material_reservation_delete_back", methods={"DELETE"})
      */
@@ -151,4 +168,7 @@ class RentManagementController extends AbstractController
 
         return $this->redirectToRoute('material_index');
     }
+
+
+    
 }

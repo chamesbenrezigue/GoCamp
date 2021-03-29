@@ -47,4 +47,17 @@ class MaterialReservationRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByDateRange($minDate,$maxDate)
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.dateStart >= :minDate')
+            ->setParameter('minDate',$minDate)
+            ->andWhere('m.dateEnd <= :maxDate')
+            ->setParameter('maxDate',$maxDate)
+            ->orderBy('m.id','ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+
+    }
 }

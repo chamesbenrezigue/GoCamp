@@ -21,21 +21,20 @@ class RentingController extends AbstractController
      */
     public function FrontRenting(MaterielRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request): Response
     {
-       // $entityManager = $this->getDoctrine()->getManager();
-     //   $ax = $entityManager->getRepository(MaterialReservation::class)->findAll();
-     //   $now = new \DateTime();
-     //  for($i=0;$i<=1;$i++) {
-         //  if ($ax[$i]->getDateEnd() < $now){
-        //       $vx = $entityManager->getRepository(Material::class)->find($ax[$i]->getMaterial())->setAvailability(true);
-        //       $bx = $entityManager->getRepository(Material::class)->find($ax[$i]->getMaterial())->getNbrmatrres();
-         //      $cx = $entityManager->getRepository(Material::class)->find($ax[$i]->getMaterial())->setNbrmatrres($bx-1);
-         //      $entityManager->persist($vx,$cx);
-
-           //    $entityManager->remove($ax[$i]);
-             //      $entityManager->flush();
-   // }
-
-     //  }
+                $entityManager = $this->getDoctrine()->getManager();
+                $ax = $entityManager->getRepository(MaterialReservation::class)->findAll();
+                $l= count($ax)-1;
+                $now = new \DateTime();
+                for($i=0;$i<=$l;$i++) {
+                 if ($ax[$i]->getDateEnd() < $now){
+               $vx = $entityManager->getRepository(Material::class)->find($ax[$i]->getMaterial())->setAvailability(true);
+               $bx = $entityManager->getRepository(Material::class)->find($ax[$i]->getMaterial())->getNbrmatrres();
+               $cx = $entityManager->getRepository(Material::class)->find($ax[$i]->getMaterial())->setNbrmatrres($bx-1);
+               $entityManager->persist($vx,$cx);
+               $entityManager->remove($ax[$i]);
+               $entityManager->flush();
+    }
+       }
 
 
         return $this->render('renting/index.html.twig', [
@@ -52,6 +51,7 @@ class RentingController extends AbstractController
             'material' => $material,
         ]);
     }
+
 
     /**
      * @Route("/reservation/{id}", name="material_reservation_Front", methods={"GET","POST"})
@@ -136,4 +136,7 @@ class RentingController extends AbstractController
 
         return $this->redirectToRoute('renting');
     }
+
+
+
 }
