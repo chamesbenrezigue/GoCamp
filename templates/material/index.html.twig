@@ -47,6 +47,8 @@
     </table>
 
     <a href="{{ path('material_new') }}">Create new</a>
+    <a href="{{ path('material_list') }}">Imprimer</a>
+
 
     {{ form_start(form) }}
     <div class="form-row align-items_end">
@@ -64,6 +66,8 @@
     </div>
     {{ form_end (form) }}
     <h1>Material Reservation </h1>
+    <a href="{{ path('material_reserver_list') }}">Imprimer</a>
+
 
     {% if reservation %}
         <table class="table">

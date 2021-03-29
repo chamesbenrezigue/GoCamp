@@ -1,0 +1,41 @@
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name of Material</th>
+            <th>User name</th>
+            <th>Date Start</th>
+            <th>Date End</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for material_reservation in material_reservations %}
+            <tr>
+                <td>{{ material_reservation.id }}</td>
+                <td>{% for material in materials %}
+                        {% if material_reservation.material.id==material.id %}
+                            {{ material.name }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for user in users %}
+                        {% if material_reservation.user.id==user.id %}
+                            {{ user.lastName }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d') : '' }}</td>
+
+
+
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
