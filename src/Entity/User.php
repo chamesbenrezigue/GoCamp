@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="`user`")
  */
 class User
 {
@@ -25,23 +28,31 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastname;
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $email;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Sujet::class, inversedBy="user")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $sujet;
 
-    public function getId(): ?int
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Jaime::class, mappedBy="user")
+     */
+    private $jaimes;
+
+    public function __construct()
     {
-        return $this->id;
+        $this->jaimes = new ArrayCollection();
     }
+
+
 
     public function getName(): ?string
     {
@@ -55,14 +66,14 @@ class User
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastName(): ?string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastName(string $lastName): self
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -78,16 +89,49 @@ class User
 
         return $this;
     }
-
-    public function getSujet(): ?Sujet
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
     {
-        return $this->sujet;
+        return (string) $this->password;
     }
 
-    public function setSujet(?Sujet $sujet): self
+    public function setPassword(string $password): self
     {
-        $this->sujet = $sujet;
+        $this->password = $password;
 
         return $this;
     }
-}
+
+    /**
+     * @return Collection|Jaime[]
+     */
+    public function getJaimes(): Collection
+    {
+        return $this->jaimes;
+    }
+
+    public function addJaime(Jaime $jaime): self
+    {
+        if (!$this->jaimes->contains($jaime)) {
+            $this->jaimes[] = $jaime;
+            $jaime->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJaime(Jaime $jaime): self
+    {
+        if ($this->jaimes->removeElement($jaime)) {
+            // set the owning side to null (unless already changed)
+            if ($jaime->getUser() === $this) {
+                $jaime->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+  }

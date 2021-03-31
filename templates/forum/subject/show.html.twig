@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Subject{% endblock %}
+
+{% block body %}
+    <h1>Subject</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Title</th>
+                <td>{{ subject.title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ subject.content }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ subject.createdAt ? subject.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ subject.category }}</td>
+            </tr>
+<tr>
+    <th> Views </th>
+    <td>
+        {{ subject.views }}
+    </td>
+</tr>
+        </tbody>
+    </table>
+    <a  href="{{ path('post_like',{'id':subject.id})}}" class="btn btn-apply btn-primary btn-lg btn-block js-like">Like
+        <span class="js-likes">{{ subject.jaimes | length }}</span> </a>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function onClickBtnLike(event)
+        {
+            event.preventDefault();
+            const url = this.href;
+            const spanCount = this.querySelector('span.js-likes');
+            axios.get(url).then(function(response)
+            {
+                spanCount.textContent = response.data.likes;
+            })
+        }
+        document.querySelectorAll('a.js-like').forEach(function(link)
+        {
+            link.addEventListener('click',onClickBtnLike);
+        })
+    </script>
+    <a href="{{ path('forum') }}">back to list</a>
+
+    <a href="{{ path('subject_edit', {'id': subject.id}) }}">edit</a>
+
+    {{ include('forum/subject/_delete_form.html.twig') }}
+{% endblock %}

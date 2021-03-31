@@ -1,40 +1,133 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Forum{% endblock %}
 
-    {% block title %}Commentaire{% endblock %}
+{% block body %}
+    <form method="post" action="{{ path('search') }}">
+        <input type="text"  placeholder="Search" name ="search">
+        <input type="submit" value="search"  class="btn btn-primary" >
 
-    {% block body %}
-        <h1>Commentaire</h1>
+    </form>
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/6061d6d5f7ce1827093506bf/1f1v2uq39';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
 
-        <table class="table">
-            <thead>
+
+    <h1>Subjects</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>Title</th>
+            <th>Content</th>
+            <th>Creation Time </th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for subject in subjects %}
             <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Contenu</th>
-                <th>actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for commentaire in commentaires %}
-                <tr>
-                    <td>{{ commentaire.id }}</td>
-                    <td>{{ commentaire.date ? commentaire.date|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ commentaire.contenu }}</td>
-                    <td>
-                        <a href="{{ path('commentaire_show', {'id': commentaire.id}) }}">show</a>
-                        <a href="{{ path('commentaire_edit', {'id': commentaire.id}) }}">edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
 
-        <a href="{{ path('commentaire_new') }}">Create new</a>
-    {% endblock %}
+                <td>{{ subject.title }}</td>
+                <td>{{ subject.content }}</td>
+                <td>{{ subject.createdAt ? subject.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ subject.category }}</td>
+                <td>
+                    <a href="{{ path('subject_show', {'id': subject.id}) }}"class="btn btn-dark">show</a>
+                    <a href="{{ path('subject_edit', {'id': subject.id}) }}"class="btn btn-dark">edit</a>
+
+
+                    <a href="{{ path('subject_response_new') }}"class="btn btn-warning">comment</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('subject_new') }}"class="btn btn-outline-dark">Create new</a>
+<div class="row">
+    <div class="content col-md-8">
+        <div class="post-padding">
+    {% if pagination == true %}
+        <ul class="pagination justify-content-end">
+            <li class="page-link" 'disabled' : '' }}">
+                <a href="{{ (page > 1) ? '?page=' ~ (page-1) : ''  }}">
+                    {#<i class="fas fa-angle-left"></i> #}
+                    Previous
+                </a>
+            </li>
+            {% set pages=(total/limit)|round(0,'ceil') %}
+            {% for item in 1..pages %}
+                <li class="page-link" ? 'active' : '' }}">
+                    <a href="?page={{ item }}">{{ item }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-link"  ? 'disabled' : '' }}">
+                <a href="{{ (page <pages) ? '?page=' ~ (page+1) : ''  }}">
+                    {#<i class="fas fa-angle-right"></i> #}
+                    Next
+                </a>
+            </li>
+
+        </ul>
+    {% endif %}
+    </div>
+    </div>
+</div>
+
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>Content</th>
+            <th>Author</th>
+            <th>Subject</th>
+            <th>Type response</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <h1>Subject Responses </h1>
+        <tbody>
+        {% for subject_response in subject_responses %}
+            <tr>
+
+                <td>{{ subject_response.content }}</td>
+                <td>{{ subject_response.author }}</td>
+                <td>{{ subject_response.subject }}</td>
+                <td>{{ subject_response.typeResponse }}</td>
+                <td>
+                    <a href="{{ path('subject_response_show', {'id': subject_response.id})  }}"class="btn btn-dark">show</a>
+                    <a href="{{ path('subject_response_edit', {'id': subject_response.id}) }}"class="btn btn-dark">edit</a>
+
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+
+
+
 
 

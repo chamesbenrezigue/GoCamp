@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Subject Response{% endblock %}
+
+{% block body %}
+    <h1>Edit Subject Response</h1>
+
+    {{ include('forum/subject_response/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('forum') }}">back to list</a>
+
+    {{ include('forum/subject_response/_delete_form.html.twig') }}
+{% endblock %}

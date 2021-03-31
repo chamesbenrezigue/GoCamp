@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block title %}List of Subjects by Category {% endblock %}
+
+{% block body %}
+
+<table class="table">
+    <thead>
+    <tr>
+
+        <th>Title</th>
+        <th>Content</th>
+        <th>Creation Time </th>
+        <th>Category</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for subject in subjects %}
+        <tr>
+
+            <td>{{ subject.title }}</td>
+            <td>{{ subject.content }}</td>
+            <td>{{ subject.createdAt ? subject.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ subject.category }}</td>
+            <td>
+                <a href="{{ path('subject_show', {'id': subject.id}) }}"class="btn btn-dark">show</a>
+
+
+                <a href="{{ path('subject_response_new') }}"class="btn btn-warning">comment</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
