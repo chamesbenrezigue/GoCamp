@@ -1,34 +1,45 @@
 {% block body %}
+    <h1 align="center"> List Of Reservations </h1>
 
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Name of Material</th>
-            <th>User name</th>
-            <th>Date Start</th>
-            <th>Date End</th>
+            <th style=" border: 1px solid black;
+               padding: 10px ; background-color: #FFDAB9">Id</th>
+            <th style=" border: 1px solid black;
+               padding: 10px;background-color: #FFDAB9">Name of Material</th>
+            <th style=" border: 1px solid black;
+               padding: 10px ;background-color: #FFDAB9">User name</th>
+            <th style=" border: 1px solid black;
+               padding: 10px;background-color: #FFDAB9">Date Start</th>
+            <th style=" border: 1px solid black;
+               padding: 10px;background-color: #FFDAB9">Date End</th>
         </tr>
         </thead>
         <tbody>
         {% for material_reservation in material_reservations %}
             <tr>
-                <td>{{ material_reservation.id }}</td>
-                <td>{% for material in materials %}
+                <td style=" border: 1px solid black;
+               padding: 10px">{{ material_reservation.id }}</td>
+                <td style=" border: 1px solid black;
+               padding: 10px">{% for material in materials %}
                         {% if material_reservation.material.id==material.id %}
                             {{ material.name }}
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td>
+                <td style=" border: 1px solid black;
+               padding: 10px">
                     {% for user in users %}
                         {% if material_reservation.user.id==user.id %}
                             {{ user.lastName }}
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d') : '' }}</td>
-                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d') : '' }}</td>
+                <td style=" border: 1px solid black;
+               padding: 10px">{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d') : '' }}</td>
+                <td style=" border: 1px solid black;
+               padding: 10px">{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d') : '' }}</td>
 
 
 

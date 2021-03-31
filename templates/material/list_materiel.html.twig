@@ -1,34 +1,63 @@
 
-
 {% block body %}
-<h1 align="center">Material </h1>
+<h1 align="center"> List of Material </h1>
 
-<table class="table">
+<table class="table" type="caption-side: bottom">
     <thead>
+<tr>
+    <th style=" border: 1px solid #000000;
+               padding: 10px; background-color: #D0E3FA">Id</th>
+    <th style=" border: 1px solid black;
+               padding: 10px ; background-color: #D0E3FA">Name</th>
+    <th style=" border: 1px solid black;
+               padding: 10px ; background-color: #D0E3FA">Description</th>
+    <th style=" border: 1px solid black;
+               padding: 10px ; background-color: #D0E3FA">Quantity</th>
+    <th style=" border: 1px solid black;
+               padding: 10px ; background-color: #D0E3FA">NumReservation</th>
+    <th style=" border: 1px solid black;
+               padding: 10px ; background-color: #D0E3FA">Prix</th>
+    <th style=" border: 1px solid black;
+               padding: 10px ; background-color: #D0E3FA">Availability</th>
+</tr>
+</thead>
+<tbody>
+{% for material in materials %}
     <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Quantity</th>
-        <th>NumReservation</th>
-        <th>Prix</th>
-        <th>Availability</th>
+        <td style=" border: 1px solid black;
+               padding: 10px">{{ material.id }}</td>
+        <td style=" border: 1px solid black;
+               padding: 10px">{{ material.name }}</td>
+
+        <td style=" border: 1px solid black;
+               padding: 10px">{{ material.description }}</td>
+        <td style=" border: 1px solid black;
+               padding: 10px">{{ material.quantity }}</td>
+        <td style=" border: 1px solid black;
+               padding: 10px">{{ material.nbrmatrres }}</td>
+        <td style=" border: 1px solid black;
+               padding: 10px">{{ material.prix }}</td>
+        <td style=" border: 1px solid black;
+               padding: 10px">{{ material.availability ? 'Yes' : 'No' }}</td>
+       
+
     </tr>
-    </thead>
-    <tbody>
-    {% for material in materials %}
-        <tr>
-            <td>{{ material.id }}</td>
-            <td>{{ material.name }}</td>
-
-            <td>{{ material.description }}</td>
-            <td>{{ material.quantity }}</td>
-            <td>{{ material.nbrmatrres }}</td>
-            <td>{{ material.prix }}</td>
-            <td>{{ material.availability ? 'Yes' : 'No' }}</td>
-
-        </tr>
-    {% endfor %}
-    </tbody>
+{% endfor %}
+</tbody>
 </table>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
