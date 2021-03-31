@@ -23,6 +23,7 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @ORM\Column(type="json")
      */
@@ -213,6 +214,7 @@ class User implements UserInterface
 
         return $this;
     }
+
 
     /**
      * @see UserInterface

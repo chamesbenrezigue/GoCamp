@@ -13,6 +13,9 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * @Route("/auth")
+ */
 class RegisterController extends AbstractController
 {
     /**

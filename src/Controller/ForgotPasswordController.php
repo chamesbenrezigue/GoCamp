@@ -13,6 +13,9 @@ use App\Repository\UserRepository;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+/**
+ * @Route("/auth")
+ */
 class ForgotPasswordController extends AbstractController
 {
     /**
