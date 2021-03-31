@@ -7,6 +7,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 Class Contact {
     /**
+     * @return string|null
+     */
+    public function getSubject(): ?string
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string|null $subject
+     */
+    public function setSubject(?string $subject): void
+    {
+        $this->subject = $subject;
+    }
+    /**
+     * @var string|null
+     * @Assert\NotBlank()
+     * @Assert\Length (min=8)
+     */
+    private $subject;
+    /**
      * @var string|null
      * @Assert\NotBlank()
      * @Assert\Length (min=2,max=50)

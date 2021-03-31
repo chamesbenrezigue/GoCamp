@@ -15,15 +15,23 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function index(Request $request , EntityManagerInterface  $entityManager): Response
+    public function index(Request $request ,\Swift_Mailer $mailer): Response
     {
         $contact =new Contact();
         $form =$this->CreateForm(ContactType::class,$contact);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
-            $this->addFlash('success','your email is sent successfully');
-            $entityManager ->persist($contact);
-            $entityManager ->flush();
+            $message = (new \Swift_Message("Subject :".$contact->getSubject()))
+                ->setFrom($contact->getEmail())
+                ->setTo('GoCamp315@gmail.com')
+                ->setReplyTo($contact->getEmail())
+                ->setBody(
+                    "<br><br>first name : ". $contact->getFirstName() . "<br> <br>last name : ". $contact->getlastName() . "<br> <br>Email : ". $contact->getEmail() ."<br><br>Message :" . $contact->getMessage(), 'text/html'
+                );
+
+            $mailer->send($message);
+
+
             return $this->redirectToRoute('home');
 
         }
