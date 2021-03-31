@@ -25,9 +25,11 @@
                 <p class="card-text"><small class="text-muted">Last updated at {{ material.updatedAt ? material.updatedAt|date('Y-m-d H:i:s') : '' }}</small></p>
                 <h5 class="card-title">{{ material.prix }} Dinars</h5>
             <a type="button" class="btn btn-primary btn-sm" href="{{ path('material_show_front', {'id': material.id}) }}">show</a>
-            {% if material.availability==true %}
+            {% if app.user %}
+                {% if material.availability==true %}
             <a type="button" class="btn btn-primary btn-sm" href="{{ path('material_reservation_Front', {'id': material.id}) }}">Rent</a>
             {% endif %}
+                {% endif %}
         </div>
         </div>
     </div>
@@ -41,7 +43,7 @@
 
 
 
-
+{% if app.user %}
 
 
     <h1>MaterialReservation </h1>
@@ -58,6 +60,7 @@
         </thead>
         <tbody>
         {% for material_reservation in material_reservations %}
+            {% if material_reservation.user.id== app.user.id %}
             <tr>
                 <td>{{ material_reservation.id }}</td>
                 <td>{% for material in materials %}
@@ -78,12 +81,12 @@
                 </td>
             </tr>
         {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
+
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

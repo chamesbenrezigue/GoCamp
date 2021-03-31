@@ -20,13 +20,8 @@ class AdminController extends AbstractController
     {
         $userMen = $userRepository->findBy(array('sexe'=>'Men'));
         $userWomen = $userRepository->findBy(array('sexe'=>'Women'));
-
-
             $userMen=count($userMen);
             $userWomen=count($userWomen);
-
-
-
 
 
         return $this->render('admin/home.html.twig', [

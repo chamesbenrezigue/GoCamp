@@ -12,15 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- * @Route("/admin")
- */
+
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="user_index", methods={"GET"})
+     * @Route("/Users", name="user_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function User(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -84,4 +82,4 @@ class UserController extends AbstractController
 
 
 
-        }
+}

@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
+/**
+ * @Route("/front")
+ */
 class RentingController extends AbstractController
 {
     /**
@@ -35,6 +37,7 @@ class RentingController extends AbstractController
                $entityManager->flush();
     }
        }
+
 
 
         return $this->render('renting/index.html.twig', [
@@ -61,13 +64,15 @@ class RentingController extends AbstractController
         $materialReservation = new MaterialReservation();
         $form = $this->createForm(MaterialReservationType::class, $materialReservation);
         $form->handleRequest($request);
+        $user = $this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
            $abn = $entityManager->getRepository(Material::class)->find($id);
-            $us = $entityManager->getRepository(User::class)->find(1);
+
+
             $materialReservation->setMaterial($abn);
-            $materialReservation->setUser($us);
+            $materialReservation->setUser($user);
             $bx = $entityManager->getRepository(Material::class)->find($id)->getnbrmatrres();
             $cx = $entityManager->getRepository(Material::class)->find($id)->getQuantity();
             if($cx>$bx){

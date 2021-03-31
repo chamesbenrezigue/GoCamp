@@ -45,6 +45,7 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=255)
      * @Assert\Length(min="8",minMessage="your password must be 8 characters long")
      * @Assert\EqualTo(propertyPath="confirm_password")
      */
