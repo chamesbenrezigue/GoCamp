@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MaterielRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,15 +29,31 @@ class Materiel
      */
     private $Prix;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $Image;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $Description;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="idmateriels")
+     */
+    private $idclient;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="idmateriel")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -66,17 +84,6 @@ class Materiel
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->Image;
-    }
-
-    public function setImage(string $Image): self
-    {
-        $this->Image = $Image;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {
@@ -86,6 +93,60 @@ class Materiel
     public function setDescription(string $Description): self
     {
         $this->Description = $Description;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getIdclient(): ?Client
+    {
+        return $this->idclient;
+    }
+
+    public function setIdclient(?Client $idclient): self
+    {
+        $this->idclient = $idclient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setIdmateriel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getIdmateriel() === $this) {
+                $comment->setIdmateriel(null);
+            }
+        }
 
         return $this;
     }

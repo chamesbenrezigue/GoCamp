@@ -1,0 +1,25 @@
+<table class="table" border="3">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Prix</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for materiel in materiels %}
+        <tr>
+            <td>{{ materiel.id }}</td>
+            <td>{{ materiel.Nom }}</td>
+            <td>{{ materiel.Prix }}</td>
+            <td>{{ materiel.description }}</td>
+
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
