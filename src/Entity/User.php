@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +42,11 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $first_name;
+
+    public function __construct()
+    {
+        $this->inscriptionEvent = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +112,28 @@ class User
     public function setFirstName(string $first_name): self
     {
         $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function addInscriptionEvent(InscriptionEvent $inscriptionEvent): self
+    {
+        if (!$this->inscriptionEvent->contains($inscriptionEvent)) {
+            $this->inscriptionEvent[] = $inscriptionEvent;
+            $inscriptionEvent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscriptionEvent(InscriptionEvent $inscriptionEvent): self
+    {
+        if ($this->inscriptionEvent->removeElement($inscriptionEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($inscriptionEvent->getUser() === $this) {
+                $inscriptionEvent->setUser(null);
+            }
+        }
 
         return $this;
     }

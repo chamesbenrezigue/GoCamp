@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use JardinBundle\Entity\Commentaire;
+use JardinBundle\Entity\Evenement;
+use JardinBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,20 +91,41 @@ class CommentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="comment_delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Comment $comment
-     * @return Response
-     */
-    public function delete(Request $request, Comment $comment): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($comment);
-            $entityManager->flush();
-        }
 
-        return $this->redirectToRoute('comment_index');
+
+
+    public function addCommentAction(Request $request, $id){
+
+        $username =(string) $this->getUser();
+
+        $em=$this->getDoctrine()->getManager();
+        $currentUser = $em->getRepository(User::class)->findOneBy(array('username'=>$username));
+
+        $text = $request->get('text');
+
+        $comment =new Comment();
+        $comment->setContenu($text);
+        $comment->setDate(new \DateTime());
+
+        $event = $em->getRepository(Event::class)->find($id);
+
+        $comment->setEvenement($event);
+        $comment->setUser($currentUser);
+
+        $em->persist($comment);
+        $em->flush();
+
+        return $this->redirectToRoute('',array('id' => $id));
     }
+
+    public function deleteCommentAction( $id){
+        $em=$this->getDoctrine()->getManager();
+        $comment = $em->getRepository(Comment::class)->find($id);
+        $idEvent = $comment->getEvenement()->getId();
+        $em->remove($comment);
+        $em->flush();
+        return $this->redirectToRoute('index.html.twig',array('id' => $idEvent));
+    }
+
+
 }

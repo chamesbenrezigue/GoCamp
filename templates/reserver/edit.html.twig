@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Edit Reserver{% endblock %}
+{% block title %}Edit Event{% endblock %}
 
 {% block body %}
-    <h1>Edit Reserver</h1>
 
-    {{ include('reserver/_form.html.twig', {'button_label': 'Update'}) }}
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Edit Event </h1>
+        </div>
 
-    <a href="{{ path('reserver_index') }}">back to list</a>
 
-    {{ include('reserver/_delete_form.html.twig') }}
+        {{ include('reserver/_form.html.twig', {'button_label': 'Update'}) }}
+
+        {{ include('reserver/_delete_form.html.twig') }}
 {% endblock %}

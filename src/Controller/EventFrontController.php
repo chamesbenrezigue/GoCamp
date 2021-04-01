@@ -8,6 +8,8 @@ use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class EventFrontController extends AbstractController
 {
@@ -36,4 +38,5 @@ class EventFrontController extends AbstractController
         ]);
 
     }
+
 }

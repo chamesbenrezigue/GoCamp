@@ -1,68 +1,30 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello EventFrontController!{% endblock %}
-
 {% block body %}
-  <div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Event Management</h1>
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Description</th>
-                    <th>Type</th>
-                    <th>Image</th>
-                    <!-- <th>Image</th> -->
-                    <th>actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for event in events %}
-                    <tr>
-                        <td>{{ event.id }}</td>
-                        <td>{{ event.title }}</td>
-                        <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ event.description }}</td>
-                        <td>{{ event.type }}</td>
+        <h1 class="h3 mb-4 text-gray-800">Liste des evenements </h1>
 
-                        <td><img style="margin-bottom: -18px" src="{{ asset('uploads/'~ event.image~'') }}" width="200" height="100"></td>
-                        <td>
-                            <a href="{{ path('event_show', {'id': event.id}) }}" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                <span class="text">Show</span>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ path('reserver_new') }}" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                <span class="text">Rent</span>
-                            </a>
-                        </td>
+        <div class="row">
+            <div class="col-md-12">
+                </div>
+                    {% for event in events  %}
+                        <div style="width:800px; margin:0 auto;">
+                            <div class="blog-entry align-self-stretch">
+                                <a href="blog-single.html" class="block-20 rounded img-2" style="background-image:{{ asset('uploads/'~event.image) }};">
+                                </a>
+                                <div class="text mt-3">
+                                    <div class="meta mb-2">
+                                        <div class="blog__details__text">
+                                            <h3 align="center">{{ event.title }}</h3>
+                                            <img align="center" src="{{ asset('uploads/'~event.image) }}" width="1000" height="500" alt="">
+                                            <a class="btn btn-success" href="{{ path ('event_show',{'id': event.id}) }}">je découvre</a>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
 
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="9">no records found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-
-            <a href="{{ path('event_management_new') }}">Create new</a>
+            </div>
         </div>
     </div>
-  </div>
-{% endblock %}
+{% endblock body %}

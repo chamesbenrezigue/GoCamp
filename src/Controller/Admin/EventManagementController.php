@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,6 +103,38 @@ class EventManagementController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/listdereservation", name="listdereservation",methods={"GET"})
+     * @param ReservationRepository $reservationRepository
+     * @param $pdfOptions
+     * @return Response
+     */
+    public function listdereservation (ReservationRepository $reservationRepository, $pdfOptions):Response
+    {
+
+        $dompdf = new Dompdf($pdfOptions);
+        $reservation = $reservationRepository->findAll();
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('reserver/listdereservation.html.twig', ['reservations' => $reservation,]);
+
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => false
+        ]);
+
+
+    }
 
     /**
      * @Route("/{id}", name="event_management_delete", methods={"DELETE"})
@@ -119,4 +152,15 @@ class EventManagementController extends AbstractController
 
         return $this->redirectToRoute('event_management');
     }
+    /**
+     * @Route("/rechercheP", name="rechercheP")
+     */
+    public function recherchePartitre(Request $request){
+        $title=$request->get('recherche');
+        $listevent=$this->getDoctrine()
+            ->getRepository(event::class)
+            ->recherchePartitle($title);
+        return $this->render('admin/event_management/index.html.twig',['events'=>$listevent]);
+    }
+
 }

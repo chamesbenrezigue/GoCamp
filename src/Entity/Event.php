@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\EventRepository;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,12 +22,12 @@ class Event
     private $id;
     /**
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="event")
      *
      */
     private $comment;
     /**
-     * @ORM\OneToMany(targetEntity="InscriptionEvent", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="App\Entity\InscriptionEvent", mappedBy="event")
      */
     private $inscriptionEvent;
 
@@ -53,13 +55,68 @@ class Event
      * @ORM\Column(name="type",type="string", length=255)
      */
     private $type;
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $prix;
+
+    /**
+     * @return mixed
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * @param mixed $prix
+     */
+    public function setPrix($prix): void
+    {
+        $this->prix = $prix;
+    }
 
 
     /**
      * @var string
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
+
+
     private $image;
+
+    /**
+     * @return mixed
+     */
+    public function getReservation()
+    {
+        return $this->Reservation;
+    }
+
+    /**
+     * @param mixed $Reservation
+     */
+    public function setReservation($Reservation): void
+    {
+        $this->Reservation = $Reservation;
+    }
+
+    /**
+     *
+     * @ORM\Column(name="resevation", type="string", length=255,nullable=true)
+     */
+    private $Reservation;
+
+
+    public function __construct()
+    {
+        $this->setStart(new \DateTime());
+        $this->setEnd(new \DateTime());
+        $this->comment = new ArrayCollection();
+        $this->inscriptionEvent = new ArrayCollection();
+
+
+    }
 
 
     public function getId(): ?int
@@ -176,6 +233,50 @@ class Event
     public function setImage(string $image): void
     {
         $this->image = $image;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment[] = $comment;
+            $comment->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getEvent() === $this) {
+                $comment->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addInscriptionEvent(InscriptionEvent $inscriptionEvent): self
+    {
+        if (!$this->inscriptionEvent->contains($inscriptionEvent)) {
+            $this->inscriptionEvent[] = $inscriptionEvent;
+            $inscriptionEvent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscriptionEvent(InscriptionEvent $inscriptionEvent): self
+    {
+        if ($this->inscriptionEvent->removeElement($inscriptionEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($inscriptionEvent->getEvent() === $this) {
+                $inscriptionEvent->setEvent(null);
+            }
+        }
+
+        return $this;
     }
 
 

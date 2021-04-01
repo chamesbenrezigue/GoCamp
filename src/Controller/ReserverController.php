@@ -2,75 +2,112 @@
 
 namespace App\Controller;
 
+use App\Entity\Reservation;
 
-use App\Entity\Event;
-use App\Entity\Reserver;
-use App\Form\EventType;
 use App\Form\ReserverType;
-use App\Repository\ReserverRepository;
+
+use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\FormTypeInterface;
 
 /**
  * @Route("/reserver")
  */
 class ReserverController extends AbstractController
 {
+
     /**
-     * @Route("/", name="reserver_index", methods={"GET"})
+     * @Route("/listr", name="list_reservation")
+     *
      */
-    public function index(ReserverRepository $reserverRepository): Response
+    public function indexAction()
     {
 
-        return $this->render('reserver/index.html.twig', [
-            'reservers' => $reserverRepository->findAll(),
-        ]);
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('App:Reservation')->findAll();
+        return $this->render('Reserver/show.html.twig',array('reservations'=>$reservation));
+
+
     }
     /**
-     * @Route("/new", name="reserver_new", methods={"GET","POST"})
+     * @Route("/backreservation", name="backreservation")
+     *
+     */
+    public function backreservation()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('App:Reservation')->findAll();
+        return $this->render('admin/event_management/reservation.html.twig',array('reservations'=>$reservation));
+
+
+    }
+    /**
+     * @Route("/ajoutreservation", name="addreservation", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
-    public function new (Request $request): Response
+    public function new(Request $request): Response
     {
-        $reserver = new reserver();
+        $reserver = new Reservation();
         $form = $this->createForm(ReserverType::class, $reserver);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ef = $this->getDoctrine()->getManager();
+            $ef->persist($reserver);
+            $ef->flush();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reserver);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('reserver');
+            $this->addFlash('success', 'Ajout effectuée avec succées');
+            return $this->redirectToRoute('list_reservation');
         }
 
         return $this->render('reserver/new.html.twig', [
-            'event' => $reserver,
+            'reserver' => $reserver,
             'form' => $form->createView(),
         ]);
     }
 
-
     /**
-     * @Route("/{id}", name="reserver_show", methods={"GET"})
+     * @Route("/listdereservation", name="listdereservation",methods={"GET"})
+     * @param ReservationRepository $reservationRepository
+     * @param $pdfOptions
+     * @return Response
      */
-    public function show(Reserver $reserver): Response
+    public function listdereservation (ReservationRepository $reservationRepository, $pdfOptions):Response
     {
-        return $this->render('reserver/show.html.twig', [
-            'reserver' => $reserver,
+
+        $dompdf = new Dompdf($pdfOptions);
+        $reservation = $reservationRepository->findAll();
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('reserver/listdereservation.html.twig', ['reservations' => $reservation,]);
+
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
         ]);
+
+
     }
 
     /**
      * @Route("/{id}/edit", name="reserver_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Reserver $reserver): Response
+    public function edit(Request $request, Reservation $reserver): Response
     {
         $form = $this->createForm(ReserverType::class, $reserver);
         $form->handleRequest($request);
@@ -90,7 +127,7 @@ class ReserverController extends AbstractController
     /**
      * @Route("/{id}", name="reserver_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Reserver $reserver): Response
+    public function delete(Request $request, Reservation $reserver): Response
     {
         if ($this->isCsrfTokenValid('delete'.$reserver->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -98,17 +135,33 @@ class ReserverController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('reserver_index');
+        return $this->redirectToRoute('list_reservation');
     }
-
     /**
-     * @Route("/listreserver/{id}", name="afficherReserver")
+     * @param $id
+     * @Route("/approuverReservation/{id}",name="approuverReservation")
      */
-    public function listReservationByEvent($id){
-        $event=$this->getDoctrine()->getRepository(Event::class)->find($id);
-        $listreserver=$this->getDoctrine()->getRepository(Reserver::class)->findBy(array('idevent'=>$event));
-        return $this->render('event/listreserver.html.twig',array('reservations'=>$listreserver));
+    public function approuverReservation($id,\Swift_Mailer $mailer)
+    {
+        $em= $this->getDoctrine()->getManager();
+        $reservation=$em->getRepository( Reservation::class)->find($id);
+        $reservation->setApprouve(1);
+        $message = (new \Swift_Message('Validation Réservation'))
+            ->setFrom('jouini.mohamednourelhak@esprit.tn')
+            ->setTo('taleb.islem@esprit.tn')
+            ->setBody(
+                $this->renderView(
+                    'admin/event_management/confirmation_mail.html.twig'
+                ),
+                'text/html'
+            );
+
+        $em->merge($reservation);
+        $em->flush();
+        $mailer->send($message);
+
+
+        return $this->redirectToRoute('backreservation',array('id'=>$id));
 
     }
-
 }

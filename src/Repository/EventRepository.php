@@ -47,4 +47,14 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function recherchePartitle($title){
+        return $this->createQueryBuilder('e') //select e from App\Entity\event
+        ->where('e.title LIKE ?1')
+            //->where('e.email LIKE :mail')
+            //->andWhere('e.Nsc = ?2')
+            ->setParameter('1','%'.$title.'%')
+            //->setParameters('2','4')
+            ->getQuery()
+            ->getResult();
+    }
 }

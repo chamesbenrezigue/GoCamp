@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}New reservation {% endblock %}
-
 {% block body %}
-    <div class="container-fluid">
-
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">New </h1>
-        </div>
-        <div class="row">
-
-            {{ include('reserver/_form.html.twig') }}
-
+    <div class="row">
+        <div class="col-md-3 swMain"></div>
+        <div class="col-md-6 swMain">
+            <div class="row">
+                <div  class="col-md-12">
+                        <legend>
+                            Ajouter Reservation
+                        </legend>
+                        {{ include('reserver/_form.html.twig') }}
+                </div>
+            </div>
         </div>
     </div>
-{% endblock %}
 
+{% endblock body %}

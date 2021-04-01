@@ -20,6 +20,7 @@ class EventType extends AbstractType
             ->add('description')
             ->add('image',FileType::class,array('label'=>'inserer une image',
                 'data_class' => null))
+            ->add('prix')
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Camping' => "Camping",

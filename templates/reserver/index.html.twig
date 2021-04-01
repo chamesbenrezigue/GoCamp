@@ -1,47 +1,42 @@
 {% extends 'base.html.twig' %}
-{% block title %}reserver{% endblock %}
+
+{% block title %}Reserver index{% endblock %}
+
 {% block body %}
+    <h1>Reserver index</h1>
+<div class="col-md-12">
 
+    <table class="table">
 
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">reserver </h1>
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table" id="tableac">
-                <thead>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Iduser</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Nomevent</th>
+                <th>Nbrplace</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reserver in reservers %}
+            <tr>
+                <td>{{ reserver.id }}</td>
+                <td>{{ reserver.iduser }}</td>
+                <td>{{ reserver.nom }}</td>
+                <td>{{ reserver.prenom }}</td>
+                <td>{{ reserver.nomevent }}</td>
+                <td>{{ reserver.nbrplace }}</td>
 
-                <tr>
-                    <th>Id</th>
-                    <th>iduser</th>
-                    <th>idevent</th>
-                    <th>nbrplace</th>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-
-
-                    <!-- <th>Image</th> -->
-                    <th>actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for event in events %}
-                    <tr>
-                        <td>{{ event.iduser }}</td>
-                        <td>{{ event.idevent }}</td>
-
-                        <td>{{ event.nbrplace }}</td>
-
-                    </tr>
-
-
-                {% endfor %}
-                </tbody>
-            </table>
-
-            <a href="{{ path('reserver_new') }}">Create new</a>
-
-
-        </div>
-    </div>
-</div>
-{% endblock %}
+        <a href="{{ path('reserver_new') }}">Create new</a>
+    {% endblock %}

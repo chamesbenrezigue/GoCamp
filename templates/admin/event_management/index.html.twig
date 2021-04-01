@@ -4,7 +4,18 @@
 
 {% block body %}
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<center><input type="text" id="search" placeholder="CHERCHER Evenement..."></center>
+
+
+    <div class="input-group">
+        <div class="input-group-append">
+            <form method="post" action="{{ path('rechercheP') }}">
+                <input type="text" name="recherche"> <input type="submit" value="rechercher">
+
+                </button>
+            </form>
+        </div>
+    </div>
+
 
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -19,6 +30,7 @@
             <th>Start</th>
             <th>End</th>
             <th>Description</th>
+            <th>prix</th>
             <th>Type</th>
             <th>Image</th>
 
@@ -34,6 +46,7 @@
                 <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ event.description }}</td>
+                <td>{{ event.prix }}</td>
                 <td>{{ event.type }}</td>
 
                 <td><img style="margin-bottom: -18px" src="{{ asset('uploads/' ~ event.image) }}" width="200" height="100"></td>
@@ -52,7 +65,6 @@
                     </a>
                 </td>
             </tr>
-
             <script>
                 $(document).ready(function(){
                     $('#search').keyup(function(){
@@ -81,13 +93,18 @@
                     }
                 });
             </script>
+
         {% endfor %}
         </tbody>
     </table>
 
     <a href="{{ path('event_management_new') }}">Create new</a>
+            <a href="{{ path('listdereservation') }}">Imprimer</a>
+
         </div>
     </div>
+
 </div>
+
 {% endblock %}
 

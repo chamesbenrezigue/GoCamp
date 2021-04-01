@@ -3,56 +3,37 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Events</h1>
-    <div class="row">
+<div style="width:800px; margin:0 auto;">
+        <a href="blog-single.html" class="block-20 rounded img-2" style="background-image:{{ asset('uploads/'~event.image) }};">
+        </a>
+        <div class="text mt-3">
+            <div class="meta mb-2">
+                <div class="blog__details__text">
+                    <h3 align="center">{{ event.title }}</h3>
+                    <img align="center" src="{{ asset('uploads/'~event.image) }}" width="1000" height="500" alt="">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ event.title }}</td>
-            </tr>
-            <tr>
-                <th>Start</th>
-                <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End</th>
-                <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.description }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ event.type }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td ><img src="{{ asset('uploads/'~event.image~'') }}"></td>
-            </tr>
-        </tbody>
-    </table>
+                    <br>
 
-            <a href="{{ path('event_front') }}" class="btn btn-warning btn-icon-split">
-        <span class="icon text-white-50">
-            <i class="fas fa-arrow-left"></i>
-        </span>
-                <span class="text">Back to list</span>
-            </a>
+                    <span class="bg-main-2"> Prix : {{ event.prix }} DT</span>
+                    <br>
 
+                    <span class="bg-main-2">Start:{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }} </span>
+                    <br>
+                    <span class="bg-main-2">End:{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</span>
+                    <br>
+                    <span class="bg-main-2">  description: {{ event.description }}</span>
+                    <br>
+                    <span class="bg-main-2"> type : {{ event.type }}</span>
 
+                </div>
 
+            </div>
+        </div>
+        <div >
+                    <a class="btn btn-success" href="{{ path ('event_front',{'id': event.id}) }}">Back to list</a>
 
-
+                </div>
+            </div>
     </div>
 </div>
-
 {% endblock %}
