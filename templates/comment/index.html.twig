@@ -1,0 +1,76 @@
+{% extends 'base_admin.html.twig' %}
+      {% block body %}
+
+          <div class="card">
+              <div class="card-body">
+                  <div class="row">
+                      <div class="col-12 d-flex mb-1">
+                          <div class="d-flex">
+                              <h4> {{ event.titre }} </h4>
+                              <h6 class="ml-4" style="margin-top:15px; margin-bottom: 0;">
+                                  du {{ event.dateDebut | date("Y/m/d") }} au {{ event.dateFin | date("Y/m/d") }}
+                              </h6>
+                          </div>
+                          <div style="margin-left: auto;">
+                              <a class="btn btn-teal" href={{ path('show.html.twig') }}>
+                                  <i class="ti-back-left"></i>
+                                  Quitter
+                              </a>
+                          </div>
+                          <hr>
+                      </div>
+
+
+                      <div class="col-md-12" style="height: 400px; overflow-y: auto;">
+
+                          <div class="timeline timeline-left">
+                              {% for c in event.commentaires %}
+                                  <article class="timeline-item">
+                                      <div class="timeline-desk">
+                                          <div class="panel">
+                                              <div class="timeline-box">
+                                                  <span class="arrow"></span>
+                                                  <span class="timeline-icon"><i
+                                                              class="mdi mdi-checkbox-blank-circle-outline"></i></span>
+                                                  <div class="d-flex">
+                                                      <h4 class="">{{ c.user.username }}</h4>
+                                                      <a href="{{ path('delete_form.html.twig',{'id':c.id}) }}"
+                                                         class="btn btn-sm btn-danger"
+                                                         style="min-width:30px; margin-left: auto;">
+                                                          <i class="fas fa-times"></i>
+                                                      </a>
+                                                  </div>
+
+
+                                                  <p class="timeline-date text-muted">
+                                                      <small> {{ c.date | date("m-d-Y  h:m") }} </small></p>
+                                                  <p> {{ c.contenu }} </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </article>
+                              {% endfor %}
+                          </div>
+
+                      </div>
+
+
+                      <form class="form-vertical col-12" action="{{ path('edit.html.twig',{'id':event.id}) }}"
+                            method="get">
+                          <div class="form-group row mt-3">
+
+                              <label class="col-md-2 col-form-label" for="example-textarea">Commentaire</label>
+                              <textarea name="text" class="col-md-6 form-control" rows="5"
+                                        id="example-textarea"></textarea>
+                              <div class="col-3 mt-2">
+                                  <input class="btn btn-primary" type="submit" value=" Commenter"/>
+                              </div>
+                          </div>
+                      </form>
+
+                  </div>
+              </div>
+          </div>
+
+      {% endblock %}
+

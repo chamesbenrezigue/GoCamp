@@ -1,0 +1,33 @@
+
+{% block body %}
+    <h1 align="centre"  list de reservation ></h1><hr>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Nomevent</th>
+            <th>Nbrplace</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for reserver in reservers %}
+            <tr>
+                <td>{{ reserver.id }}</td>
+                <td>{{ reserver.nom }}</td>
+                <td>{{ reserver.prenom }}</td>
+                <td>{{ reserver.nomevent }}</td>
+                <td>{{ reserver.nbrplace }}</td>
+
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

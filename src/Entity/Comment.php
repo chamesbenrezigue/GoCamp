@@ -12,34 +12,47 @@ class Comment
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
+    /**
+     * @ORM\ManyToOne(targetEntity="Event")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
+     */
+    private
+        $event;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+    /**
+     * @ORM\Column(name="creation_date", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $date;
+
+    /**
+     * @ORM\Column(name="content",type="string", length=255)
      */
     private $content;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Materiel::class, inversedBy="comments")
-     */
-    private $idmateriel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="comments")
-     */
-    private $idclient;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
     }
 
     public function getContent(): ?string
@@ -54,39 +67,36 @@ class Comment
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getEvent()
     {
-        return $this->createdAt;
+        return $this->event;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @param mixed $event
+     */
+    public function setEvent($event)
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->event = $event;
     }
 
-    public function getIdmateriel(): ?Materiel
+    /**
+     * @return mixed
+     */
+    public function getUser()
     {
-        return $this->idmateriel;
+        return $this->user;
     }
 
-    public function setIdmateriel(?Materiel $idmateriel): self
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
     {
-        $this->idmateriel = $idmateriel;
-
-        return $this;
+        $this->user = $user;
     }
 
-    public function getIdclient(): ?Client
-    {
-        return $this->idclient;
-    }
-
-    public function setIdclient(?Client $idclient): self
-    {
-        $this->idclient = $idclient;
-
-        return $this;
-    }
 }

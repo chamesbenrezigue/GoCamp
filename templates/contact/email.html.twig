@@ -1,0 +1,31 @@
+{% block title %}{{ contact.subject }}{% endblock %}
+{% block body %}
+
+
+                    <table>
+                        <tr>
+                            <td > First name :</td>
+                            <td > {{ contact.firstname }}</td>
+
+                        </tr>
+                        <tr>
+                            <td> Last name :</td>
+                            <td> {{ contact.lastname }}</td>
+
+                        </tr>
+                        <tr>
+                            <td> Email :</td>
+                            <td> {{ contact.email }}</td>
+
+                        </tr>
+                        <tr>
+                            <td> Message </td>
+                            <td> {{ contact.message |nl2br }}</td>
+
+                        </tr>
+                        </td>
+                    </table>
+
+
+
+{% endblock %}

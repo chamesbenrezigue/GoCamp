@@ -33,34 +33,46 @@
 
             <div class="row">
                 <div class="col-lg-8 mb-5" >
-                    <form action="#" method="post">
-                        <div class="form-group row">
+                    {{ form_start(form) }}
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            {{ form_widget(form.subject,{'label': 'aaa','attr':{'class':'form-control','placeholder':'Subject ...','type':'text'}} )}}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                             <div class="col-md-6 mb-4 mb-lg-0">
-                                <input type="text" class="form-control" placeholder="First name">
+                                {{ form_widget(form.firstName,{'attr':{'class':'form-control','placeholder':'First Name','type':'text'}} )}}
+
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="First name">
+                                {{ form_widget(form.lastName,{'attr':{'class':'form-control','placeholder':'First Name','type':'text'}} )}}
+
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" placeholder="Email address">
+                                {{ form_widget(form.email,{'label': 'aaa','attr':{'class':'form-control','placeholder':'Email Address','type':'text'}} )}}
+
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <textarea name="" id="" class="form-control" placeholder="Write your message." cols="30" rows="10"></textarea>
+                                {{ form_widget(form.message,{'attr':{'class':'form-control form-control-user','placeholder':'Write your message.','cols':'30','rows':'10','type':'textArea'}} )}}
+
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-6 mr-auto">
-                                <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" value="Send Message">
+                                <button type="submit" class="btn btn-block btn-primary text-white py-3 px-5" >Send Message</button>
                             </div>
                         </div>
-                    </form>
                 </div>
+                {{ form_end(form) }}
+
                 <div class="col-lg-4 ml-auto">
                     <div class="bg-white p-3 p-md-5">
                         <h3 class="text-black mb-4">Contact Info</h3>

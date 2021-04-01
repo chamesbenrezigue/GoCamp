@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+{% block title %} Edit Profil{% endblock %}
+{% block body %}
+    <head>
+        <style>
+            body{
+                background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+            }
+            .emp-profile{
+                padding: 3%;
+                margin-top: 3%;
+                margin-bottom: 3%;
+                border-radius: 0.5rem;
+                background: #fff;
+            }
+        </style>
+    </head>
+
+    <div class="container emp-profile">
+        <div class="row ">
+            <div class="col-md-6 mb-5 mt-5">
+                <div class="profile-head">
+                    <h5>
+                        General Account Settings
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+
+        <div class="col-md-6" >
+
+
+        {{ form_start(form,{'attr':{'novalidate' : 'novalidate'}}) }}
+        <div class="row mb-1">
+
+            <div class="col-md-3" >
+                First Name
+            </div>
+            <div class="col-md-8">
+
+                {{ form_widget(form.firstName)}}
+
+            </div>
+        </div>
+            <div class="row mb-1">
+                <div class="col-md-3">
+                Last Name
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.lastName)}}
+                </div>
+            </div>
+        <div class="row mb-1">
+            <div class="col-md-3">
+                Description
+            </div>
+            <div class="col-md-8">
+                {{ form_widget(form.description)}}
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-md-3">
+                Adress
+
+            </div>
+            <div class="col-md-8">
+                {{ form_widget(form.adress)}}
+            </div>
+        </div>
+            </div>
+                <div class="col-md-6">
+
+                <div class="row mb-1">
+                <div class="col-md-3">
+                    Sexe
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.sexe)}}
+                </div>
+            </div>
+                        <div class="row mb-1">
+                        <div class="col-md-3">
+                            Phone
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.phone)}}
+                        </div>
+                    </div>
+                        <div class="row mb-1">
+                            <div class="col-md-3">
+                                Password
+                            </div>
+                            <div class="col-md-8">
+                                {{ form_widget(form.password)}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                Confirmation password
+                            </div>
+                            <div class="col-md-8">
+                                {{ form_widget(form.confirm_password)}}
+                            </div>
+                        </div>
+                    </div>
+            <div class="col-md-12 mt-5"  align="center">
+                {{ form_widget(form.valid)}}
+
+            </div>
+
+            </div>
+        {{ form_end(form)}}
+
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

@@ -7,54 +7,18 @@
 
     <table class="table">
         <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ materiel.id }}</td>
-        </tr>
-        <tr>
-            <th>Nom</th>
-            <td>{{ materiel.Nom }}</td>
-        </tr>
-        <tr>
-            <th>photo</th>
-            <td><img src="{{ asset('picture/' ~ materiel.photo) }}" alt="" width="130" height="130"></td>
-        </tr>
-        <tr>
-            <th>Prix</th>
-            <td>{{ materiel.Prix }}</td>
-        </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ materiel.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ materiel.Nom }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ materiel.Prix }}</td>
+            </tr>
         </tbody>
     </table>
-    {% for comment in comments %}
-        <div class="row">
-            <div class="col-sm-5">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>{{ comment.idclient.nom }}</strong> <span class="text-muted">commented At {{ comment.createdAt | date('d/m/y') }}</span>
-                    </div>
-                    <div class="panel-body">
-                        {{ comment.content }}
-                    </div><!-- /panel-body -->
-                </div><!-- /panel panel-default -->
-            </div><!-- /col-sm-5 -->
-        </div><!-- /row -->
-
-    {% endfor %}
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-7" id="new_status">
-                <form action="{{ path('materiel_show',{'id': materiel.id}) }}" method="post" >
-                    <div class="col-xs-12" id="post_content">
-                        <div class="textarea_wrap">
-                            {{ form_start(commentForm) }}
-                            {{ form_widget(commentForm.content,{'attr':{'placeholder':'Leave Comment','class':'form-control','rows':'5'}}) }}
-                            {{ form_widget(commentForm) }}
-                            <div class="col-xs-5">
-                                <button class="btn btn-primary btn-block">{{ button_label|default('Post') }}</button>
-                            </div>
-                            {{ form_end(commentForm) }}
-                        </div>
-                    </div>
-                </form>
-        </div>
 {% endblock %}

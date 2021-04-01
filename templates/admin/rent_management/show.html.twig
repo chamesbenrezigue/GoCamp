@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}MaterialReservation{% endblock %}
+
+{% block body %}
+    <h1>MaterialReservation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ material_reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>Date Start</th>
+                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date End</th>
+                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('material_index') }}">back to list</a>
+
+    <a href="{{ path('material_reservation_edit_back', {'id': material_reservation.id}) }}">edit</a>
+
+    {{ include('admin/Rent_Management/_delete_form.html.twig') }}
+{% endblock %}

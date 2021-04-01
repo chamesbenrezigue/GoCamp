@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reserver index{% endblock %}
+
+{% block body %}
+    <h1>Reserver index</h1>
+<div class="col-md-12">
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Iduser</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Nomevent</th>
+                <th>Nbrplace</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reserver in reservers %}
+            <tr>
+                <td>{{ reserver.id }}</td>
+                <td>{{ reserver.iduser }}</td>
+                <td>{{ reserver.nom }}</td>
+                <td>{{ reserver.prenom }}</td>
+                <td>{{ reserver.nomevent }}</td>
+                <td>{{ reserver.nbrplace }}</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <a href="{{ path('reserver_new') }}">Create new</a>
+    {% endblock %}

@@ -21,6 +21,7 @@ class MaterielRepository extends ServiceEntityRepository
 
     // /**
     //  * @return Materiel[] Returns an array of Materiel objects
+
     //  */
     /*
     public function findByExampleField($value)
@@ -38,6 +39,7 @@ class MaterielRepository extends ServiceEntityRepository
 
     /*
     public function findOneBySomeField($value): ?Materiel
+
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')
@@ -47,14 +49,4 @@ class MaterielRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function rechercheParNom($data){
-        return $this->createQueryBuilder('n')
-            ->where('n.Nom LIKE ?1')
-            //->where('e.email LIKE :mail')
-            //->andWhere('e.Nsc = ?2')
-            ->setParameter('1','%'.$data.'%')
-            //->setParameters('2','4')
-            ->getQuery()
-            ->getResult();
-    }
 }

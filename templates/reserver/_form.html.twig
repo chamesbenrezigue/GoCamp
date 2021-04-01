@@ -1,0 +1,42 @@
+{{ form_start(form, {'method': 'post', 'attr' : {'id' : 'formFormation'}}) }}
+
+<div class="form-group">
+    <label class="control-label">
+        Nom <span class="symbol required"></span>
+    </label>
+    {{ form_widget(form.nom, { 'attr': {'class': 'form-control', 'required' : true }}) }}
+</div>
+<div class="form-group">
+    <label class="control-label">
+        prenom <span class="symbol required"></span>
+    </label>
+    {{form_widget(form.prenom, { 'attr': {'class': 'form-control', 'required' : true }}) }}
+
+
+</div>
+<div class="form-group">
+    <label class="control-label">
+        Nombre de personne <span class="symbol required"></span>
+    </label>
+    {{ form_widget(form.nbrplace, { 'attr': {'class': 'form-control', 'required' : 'true', 'value' : 00 , 'touchspin' : 'touchspin', 'data-min' : 0 , 'data-max': 100 , 'data-step': 1 ,  'data-decimals' :2 , 'data-boostat' : 5 , 'data-maxboostedstep' : 10  }}) }}
+
+</div>
+<div class="form-group">
+    <label class="control-label">
+        Nom event <span class="symbol required"></span>
+    </label>
+    <div class="">
+        {{ form_widget(form.event,{'attr': {'class': 'js-example-basic-single js-states form-control'}}) }}
+    </div>
+</div>
+
+<div class="">
+</div>
+</div>
+<div class="form-actions">
+    <button type="submit" class="btn btn-primary pull-right">
+        Ajouter <i class="fa fa-arrow-circle-right"></i>
+    </button>
+</div>
+
+{{ form_end(form) }}

@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit MaterialReservation{% endblock %}
+
+{% block body %}
+    <h1>Edit MaterialReservation</h1>
+
+    {{ include('admin/Rent_Management/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('material_index') }}">back to list</a>
+
+    {{ include('admin/Rent_Management/_delete_form.html.twig') }}
+{% endblock %}

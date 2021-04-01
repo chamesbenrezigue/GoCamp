@@ -1,20 +1,11 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Materiel{% endblock %}
+{% block title %}Materiel index{% endblock %}
 
 {% block body %}
-    <h1>Materiel</h1>
-
+    <h1>Materiel index</h1>
 
     <table class="table">
-
-        <a href="{{ path('materiel_management_new') }}"> Create New </a>
-        <a href="{{ path('listo') }}"> Create PDF</a>
-        <form method="post" action="{{ path('rechercheP') }}">
-            <label>
-                <input type="text" name="recherche">
-            </label> <input type="submit" value="rechercher">
-        </form>
         <thead>
             <tr>
                 <th>Id</th>
@@ -23,6 +14,8 @@
                 <th>Image</th>
                 <th>Description</th>
                 <th>Actions</th>
+
+
             </tr>
         </thead>
         <tbody>
@@ -31,16 +24,13 @@
                 <td>{{ materiel.id }}</td>
                 <td>{{ materiel.Nom }}</td>
                 <td>{{ materiel.Prix }}</td>
-                <td><img src="{{ asset('picture/' ~ materiel.photo) }}" alt="" width="130" height="130"></td>
+                <td>    </td>
                 <td>{{ materiel.description }}</td>
 
 
                 <td>
-                    <a href="{{ path('materiel_management_show', {'id': materiel.id}) }}"> Show </a>
-
-                    <a href="{{ path('materiel_management_edit', {'id': materiel.id}) }}"> Edit </a>
-
-                    <a href="{{ path('materiel_management_delete', {'id': materiel.id}) }}"> Delete</a>
+                    <a href="{{ path('materiel_management_show', {'id': materiel.id}) }}">show</a>
+                    <a href="{{ path('materiel_management_edit', {'id': materiel.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -50,4 +40,6 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('materiel_management_new') }}">Create new</a>
 {% endblock %}
