@@ -71,3 +71,4 @@ class ForumManagementController extends AbstractController
     }
 
 }
+

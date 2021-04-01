@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}InscriptionEvent{% endblock %}
+
+{% block body %}
+    <h1>InscriptionEvent</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ inscription_event.id }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ inscription_event.dateCreation ? inscription_event.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('inscription_event_index') }}">back to list</a>
+
+    <a href="{{ path('inscription_event_edit', {'id': inscription_event.id}) }}">edit</a>
+
+    {{ include('inscription_event/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+
+
+
+
+
+    {{ form_widget(form) }}
+<!------------------------------------------ Buttons --------------------------->
+
+    <a href="{{ path('event_management') }}" class="btn btn-warning btn-icon-split">
+        <span class="icon text-white-50">
+            <i class="fas fa-arrow-left"></i>
+        </span>
+        <span class="text">Back to list</span>
+    </a>
+
+
+        <button class="btn btn-success btn-icon-split">
+        <span class="icon text-white-50">
+            <i class="fas fa-check"></i>
+        </span>
+    <span class="text"> {{ button_label|default('Save') }}</span>
+</button>
+
+
+{{ form_end(form) }}

@@ -1,0 +1,38 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div style="margin-left: 200px">
+        <h1 class="h3 mb-4 text-gray-800">list de reservation</h1>
+
+
+            <table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
+                <thead>
+                <tr>
+                    <th class="hidden-xs center" width="20%"><strong>Nom</strong></th>
+                    <th class="hidden-xs center" width="20%"><strong>prenom</strong></th>
+                    <th class="hidden-xs center" width="10%"><strong>event</strong></th>
+                    <th class="hidden-xs center" width="5%"><strong>nombre de psersonne </strong></th>
+
+                    <th class="hidden-xs center" width="10%"><strong>Actions</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td class="hidden-xs center">{{ reservation.nom  }} </td>
+                        <td class="hidden-xs center">{{ reservation.prenom }} </td>
+                        <td class="hidden-xs center">{{ reservation.event}} </td>
+                        <td class="hidden-xs center">{{ reservation.nbrplace}} </td>
+                        {% if reservation.approuve ==1 %}
+                            <td style="background-color: #2cd258">Approuvée</td>
+                        {% elseif reservation.approuve==0 %}
+                            <td><button class="btn btn-warning"><a href="{{ url('approuverReservation',{'id':reservation.id}) }}">Approuver</a></button></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+{% endblock body %}
