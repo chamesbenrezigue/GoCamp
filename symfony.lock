@@ -1,4 +1,7 @@
 {
+    "blackknight467/star-rating-bundle": {
+        "version": "v2.0.1"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -23,6 +26,9 @@
     "doctrine/common": {
         "version": "3.1.1"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.5.0"
+    },
     "doctrine/dbal": {
         "version": "2.12.1"
     },
@@ -42,6 +48,18 @@
             "./config/packages/prod/doctrine.yaml",
             "./src/Entity/.gitignore",
             "./src/Repository/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "e5b542d4ef47d8a003c91beb35650c76907f7e53"
+        },
+        "files": [
+            "./src/DataFixtures/AppFixtures.php"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
@@ -83,15 +101,6 @@
     },
     "dompdf/dompdf": {
         "version": "v1.0.2"
-    },
-    "easycorp/easyadmin-bundle": {
-        "version": "3.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.0",
-            "ref": "b131e6cbfe1b898a508987851963fff485986285"
-        }
     },
     "egulias/email-validator": {
         "version": "2.1.25"
@@ -391,9 +400,6 @@
     "symfony/polyfill-php80": {
         "version": "v1.22.0"
     },
-    "symfony/polyfill-uuid": {
-        "version": "v1.22.1"
-    },
     "symfony/process": {
         "version": "v4.4.19"
     },
@@ -460,7 +466,7 @@
         "version": "v4.4.19"
     },
     "symfony/string": {
-        "version": "v5.2.4"
+        "version": "v5.2.6"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
@@ -514,9 +520,6 @@
     },
     "symfony/twig-pack": {
         "version": "v1.0.1"
-    },
-    "symfony/uid": {
-        "version": "v5.2.4"
     },
     "symfony/validator": {
         "version": "4.3",

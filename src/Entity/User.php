@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -62,6 +63,40 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $adress;
+    public function __construct()
+    {
+        $this->jaimes = new ArrayCollection();
+    }
+    /**
+     * @return Collection|Jaime[]
+     */
+    public function getJaimes(): Collection
+    {
+        return $this->jaimes;
+    }
+    public function addJaime(Jaime $jaime): self
+    {
+        if (!$this->jaimes->contains($jaime)) {
+            $this->jaimes[] = $jaime;
+            $jaime->setUser($this);
+        }
+        return $this;
+    }
+    public function removeJaime(Jaime $jaime): self
+    {
+        if ($this->jaimes->removeElement($jaime)) {
+            // set the owning side to null (unless already changed)
+            if ($jaime->getUser() === $this) {
+                $jaime->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @ORM\OneToMany(targetEntity=Jaime::class, mappedBy="user")
+     */
+    private $jaimes;
 
     /**
      * @return mixed
@@ -226,9 +261,9 @@ class User implements UserInterface
      */
     public function getRoles() : array
     {
-$roles= $this->roles;
-    $roles[]= 'ROLE_USER';
-    return array_unique($roles);
+        $roles= $this->roles;
+        $roles[]= 'ROLE_USER';
+        return array_unique($roles);
     }
     public function setRoles(array $roles):self
     {

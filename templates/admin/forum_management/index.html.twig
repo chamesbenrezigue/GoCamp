@@ -3,5 +3,72 @@
 {% block title %}Hello ForumManagementController!{% endblock %}
 
 {% block body %}
+<h1>list of Subjects</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>CreatedAt</th>
+        <th>Category</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.id }}</td>
+            <td>{{ subject.title }}</td>
+            <td>{{ subject.content }}</td>
+            <td>{{ subject.createdAt ? subject.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ subject.category }}</td>
+            <td>
+                <a href="{{ path('back_subject_show', {'id': subject.id}) }}"  class="btn btn-primary">show</a>
+                <a href="{{ path('back_subject_delete', {'id': subject.id}) }}" class="btn btn-danger">delete</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>Content</th>
+            <th>Author</th>
+            <th>Subject</th>
+            <th>Type response</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <h1>list of Subjects Responses </h1>
+        <tbody>
+        {% for subject_response in subject_responses %}
+            <tr>
+
+                <td>{{ subject_response.content }}</td>
+                <td>{{ subject_response.author }}</td>
+                <td>{{ subject_response.subject }}</td>
+                <td>{{ subject_response.typeResponse }}</td>
+                <td>
+                    <a href="{{ path('back_subject_response_show', {'id': subject_response.id})  }}"class="btn btn-primary">show</a>
+                    <a href="{{ path('back_subject_response_delete', {'id': subject_response.id}) }}"class="btn btn-danger">delete</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
+
