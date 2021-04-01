@@ -164,3 +164,4 @@ class EventManagementController extends AbstractController
     }
 
 }
+

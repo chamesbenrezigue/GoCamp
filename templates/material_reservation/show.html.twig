@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MaterialReservation{% endblock %}
+
+{% block body %}
+    <h1>MaterialReservation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ material_reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>Date Start</th>
+                <td>{{ material_reservation.dateStart ? material_reservation.dateStart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date End</th>
+                <td>{{ material_reservation.dateEnd ? material_reservation.dateEnd|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Name material</th>
+
+                <td>{% for material in materials %}
+                    {% if material_reservation.material.id==material.id %}
+                        {{ material.name }}
+                    {% endif %}
+                {% endfor %}
+
+
+            </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('material_reservation_index') }}">back to list</a>
+
+    <a href="{{ path('material_reservation_edit_front', {'id': material_reservation.id}) }}">edit</a>
+
+    {{ include('material_reservation/_delete_form.html.twig') }}
+{% endblock %}
