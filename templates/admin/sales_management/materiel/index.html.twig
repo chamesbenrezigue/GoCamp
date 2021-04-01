@@ -1,0 +1,45 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Materiel index{% endblock %}
+
+{% block body %}
+    <h1>Materiel index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Actions</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for materiel in materiels %}
+            <tr>
+                <td>{{ materiel.id }}</td>
+                <td>{{ materiel.Nom }}</td>
+                <td>{{ materiel.Prix }}</td>
+                <td>    </td>
+                <td>{{ materiel.description }}</td>
+
+
+                <td>
+                    <a href="{{ path('materiel_management_show', {'id': materiel.id}) }}">show</a>
+                    <a href="{{ path('materiel_management_edit', {'id': materiel.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('materiel_management_new') }}">Create new</a>
+{% endblock %}

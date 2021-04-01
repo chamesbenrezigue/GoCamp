@@ -7,7 +7,7 @@ use App\Entity\MaterialReservation;
 use App\Entity\User;
 use App\Form\MaterialReservationType;
 use App\Repository\MaterialReservationRepository;
-use App\Repository\MaterielRepository;
+use App\Repository\MaterialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +21,8 @@ class RentingController extends AbstractController
     /**
      * @Route("/renting", name="renting")
      */
-    public function FrontRenting(MaterielRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request): Response
+    public function FrontRenting(MaterialRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request): Response
+
     {
                 $entityManager = $this->getDoctrine()->getManager();
                 $ax = $entityManager->getRepository(MaterialReservation::class)->findAll();

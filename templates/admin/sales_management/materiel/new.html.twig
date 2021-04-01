@@ -1,0 +1,11 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}New Materiel{% endblock %}
+
+{% block body %}
+    <h1>Create new Materiel</h1>
+
+    {{ include('admin/sales_management/materiel/_form.html.twig') }}
+
+    <a href="{{ path('sales_management') }}">back to list</a>
+{% endblock %}

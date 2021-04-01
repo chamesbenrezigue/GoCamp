@@ -2,25 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\Material;
+use App\Entity\Materiel;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Material|null find($id, $lockMode = null, $lockVersion = null)
- * @method Material|null findOneBy(array $criteria, array $orderBy = null)
- * @method Material[]    findAll()
- * @method Material[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Materiel|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Materiel|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Materiel[]    findAll()
+ * @method Materiel[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+
  */
 class MaterielRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Material::class);
+        parent::__construct($registry, Materiel::class);
     }
 
     // /**
-    //  * @return Material[] Returns an array of Material objects
+    //  * @return Materiel[] Returns an array of Materiel objects
+
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +40,8 @@ class MaterielRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Material
+    public function findOneBySomeField($value): ?Materiel
+
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')

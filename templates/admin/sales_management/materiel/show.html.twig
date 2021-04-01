@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Materiel{% endblock %}
+
+{% block body %}
+    <h1>Materiel</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ materiel.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ materiel.Nom }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ materiel.Prix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('sales_management') }}">back to list</a>
+
+    <a href="{{ path('materiel_management_edit', {'id': materiel.id}) }}">edit</a>
+
+    {{ include('admin/sales_management/materiel/_delete_form.html.twig') }}
+{% endblock %}
