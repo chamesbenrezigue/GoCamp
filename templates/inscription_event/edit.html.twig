@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit InscriptionEvent{% endblock %}
+
+{% block body %}
+    <h1>Edit InscriptionEvent</h1>
+
+    {{ include('inscription_event/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('inscription_event_index') }}">back to list</a>
+
+    {{ include('inscription_event/_delete_form.html.twig') }}
+{% endblock %}

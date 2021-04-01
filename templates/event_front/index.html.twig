@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <h1 class="h3 mb-4 text-gray-800">Liste des evenements </h1>
+
+        <div class="row">
+            <div class="col-md-12">
+                </div>
+                    {% for event in events  %}
+                        <div style="width:800px; margin:0 auto;">
+                            <div class="blog-entry align-self-stretch">
+                                <a href="blog-single.html" class="block-20 rounded img-2" style="background-image:{{ asset('uploads/'~event.image) }};">
+                                </a>
+                                <div class="text mt-3">
+                                    <div class="meta mb-2">
+                                        <div class="blog__details__text">
+                                            <h3 align="center">{{ event.title }}</h3>
+                                            <img align="center" src="{{ asset('uploads/'~event.image) }}" width="1000" height="500" alt="">
+                                            <a class="btn btn-success" href="{{ path ('event_show',{'id': event.id}) }}">je découvre</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock body %}

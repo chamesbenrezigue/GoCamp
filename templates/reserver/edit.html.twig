@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Event{% endblock %}
+
+{% block body %}
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Edit Event </h1>
+        </div>
+
+
+        {{ include('reserver/_form.html.twig', {'button_label': 'Update'}) }}
+
+        {{ include('reserver/_delete_form.html.twig') }}
+{% endblock %}

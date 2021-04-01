@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -25,6 +26,7 @@ class User implements UserInterface
     private $id;
 
     /**
+
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -36,6 +38,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+
     private $lastName;
 
     /**
@@ -167,6 +170,7 @@ class User implements UserInterface
         return $this->id;
     }
 
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -181,6 +185,7 @@ class User implements UserInterface
 
     public function getLastName(): ?string
     {
+
         return $this->lastName;
     }
 
@@ -257,6 +262,7 @@ $roles= $this->roles;
         return $this;
     }
 
+
     public function getResetToken(): ?string
     {
         return $this->reset_token;
@@ -268,6 +274,5 @@ $roles= $this->roles;
 
         return $this;
     }
-
 
 }
