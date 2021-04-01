@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Materiel;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Materiel|null findOneBy(array $criteria, array $orderBy = null)
  * @method Materiel[]    findAll()
  * @method Materiel[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+
  */
 class MaterielRepository extends ServiceEntityRepository
 {

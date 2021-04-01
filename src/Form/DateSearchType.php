@@ -34,13 +34,3 @@ class DateSearchType extends AbstractType
 }
 
 
-
-
-
-
-
-
-
-
-
-

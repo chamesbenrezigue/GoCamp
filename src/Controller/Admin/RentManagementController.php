@@ -10,6 +10,7 @@ use App\Form\MaterialReservationType;
 use App\Form\MaterialType;
 use App\Repository\MaterialReservationRepository;
 use App\Repository\MaterialRepository;
+
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,6 +29,7 @@ class RentManagementController extends AbstractController
      * @Route("/material", name="material_index", methods={"GET","POST"})
      */
     public function index(MaterialRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request,PaginatorInterface $paginator,UserRepository $userRepository): Response
+
     {
 //recherche
         $dateSearch = new DateSearch();
@@ -60,6 +62,7 @@ class RentManagementController extends AbstractController
      * @Route("/list_material", name="material_list", methods={"GET"})
      */
     public function listMaterial(MaterialRepository $materielRepository): Response
+
     {
 
         $pdfOptions = new Options();
@@ -92,6 +95,7 @@ class RentManagementController extends AbstractController
      * @Route("/list_material_reserver", name="material_reserver_list", methods={"GET"})
      */
     public function listMaterialReserver(MaterialReservationRepository $materialReservationRepository,MaterialRepository $materielRepository,UserRepository $userRepository): Response
+
     {
 
         $pdfOptions = new Options();

@@ -22,6 +22,7 @@ class RentingController extends AbstractController
      * @Route("/renting", name="renting")
      */
     public function FrontRenting(MaterialRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request): Response
+
     {
                 $entityManager = $this->getDoctrine()->getManager();
                 $ax = $entityManager->getRepository(MaterialReservation::class)->findAll();
