@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MaterielRepository;
+use App\Repository\MaterialRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 /**
- * @ORM\Entity(repositoryClass=MaterielRepository::class)
+ * @ORM\Entity(repositoryClass=MaterialRepository::class)
  * @Vich\Uploadable
  */
 class Material

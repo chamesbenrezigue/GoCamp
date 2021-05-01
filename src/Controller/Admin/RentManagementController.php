@@ -10,7 +10,6 @@ use App\Form\MaterialReservationType;
 use App\Form\MaterialType;
 use App\Repository\MaterialReservationRepository;
 use App\Repository\MaterialRepository;
-
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

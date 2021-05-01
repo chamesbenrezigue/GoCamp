@@ -25,7 +25,7 @@ class SalesManagementController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="materiel_management_new", methods={"GET","POST"})
+     * @Route("/sales/management/new", name="materiel_management_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -50,7 +50,7 @@ class SalesManagementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="materiel_management_show", methods={"GET"})
+     * @Route("/sales/management/{id}", name="materiel_management_show", methods={"GET"})
      * @param Materiel $materiel
      * @return Response
      */
@@ -62,7 +62,7 @@ class SalesManagementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="materiel_management_edit", methods={"GET","POST"})
+     * @Route("/sales/management/{id}/edit", name="materiel_management_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Materiel $materiel
      * @return Response
@@ -85,7 +85,7 @@ class SalesManagementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="materiel_management_delete", methods={"DELETE"})
+     * @Route("/sales/management/{id}", name="materiel_management_delete", methods={"DELETE"})
      * @param Request $request
      * @param Materiel $materiel
      * @return Response

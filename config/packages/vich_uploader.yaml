@@ -2,10 +2,9 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-      subjectresponses:
-          uri_prefix: /images/subjectresponses
-          upload_destination: '%kernel.project_dir%/public/images/subjectresponses'
-          inject_on_load: false
-          delete_on_update: true
-          delete_on_remove: true
-
+        product_images:
+            uri_prefix: '%app.path.product_images%'
+            upload_destination: '%kernel.project_dir%/public%app.path.product_images%'
+            namer: 'Vich\UploaderBundle\Naming\UniqidNamer'
+            delete_on_remove: true
+            delete_on_update: true

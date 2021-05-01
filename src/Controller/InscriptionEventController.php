@@ -41,9 +41,7 @@ class InscriptionEventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**
-             * @var UploadedFile $file
-             */
+
             $file = $form->get('image')->getData();
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('images_directory'),$fileName);

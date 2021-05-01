@@ -14,14 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
- * @Route("/front")
+ * @Route("/fronttt")
  */
 class RentingController extends AbstractController
 {
     /**
      * @Route("/renting", name="renting")
      */
-    public function FrontRenting(MaterialRepository $materielRepository,MaterialReservationRepository $materialReservationRepository,Request $request): Response
+    public function FrontRenting(MaterialRepository $materialRepository,MaterialReservationRepository $materialReservationRepository,Request $request): Response
 
     {
                 $entityManager = $this->getDoctrine()->getManager();
@@ -42,7 +42,7 @@ class RentingController extends AbstractController
 
 
         return $this->render('renting/index.html.twig', [
-            'materials' => $materielRepository->findAll(),
+            'materials' => $materialRepository->findAll(),
             'material_reservations' => $materialReservationRepository->findAll(),
         ]);
     }
