@@ -7,6 +7,7 @@ use mysql_xdevapi\Warning;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType ;
 
 class MaterielType extends AbstractType
 {
@@ -15,9 +16,10 @@ class MaterielType extends AbstractType
         $builder
             ->add('Nom')
             ->add('Prix')
-            ->add('image')
             ->add('Description')
-
+            ->add('photo', FileType::class, [
+                'mapped' => false
+            ])
         ;
     }
 

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/Controller/Admin/SalesManagementController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Controller/PurchaseFrontController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Entity/Comment.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Entity/LocationMateriel.php" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/Entity/Materiel.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Form/CommentType.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/admin/sales_management" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/purchase_front" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1252" />
   </component>
 </project>

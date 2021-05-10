@@ -1,11 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Materiel index{% endblock %}
+{% block title %}Purchase{% endblock %}
 
 {% block body %}
-    <h1>Materiel index</h1>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/6063b702067c2605c0bdd95d/1f22o5p4e';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+    <h1>Materiel</h1>
 
     <table class="table">
+        <form method="post" action="{{ path('rechercheP') }}">
+            <input type="text" name="recherche"> <input type="submit" value="rechercher">
+        </form>
         <thead>
             <tr>
                 <th>Id</th>
@@ -13,7 +30,7 @@
                 <th>Prix</th>
                 <th>Image</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -22,10 +39,10 @@
                 <td>{{ materiel.id }}</td>
                 <td>{{ materiel.Nom }}</td>
                 <td>{{ materiel.Prix }}</td>
-                <td>                    </td>
+                <td><img src="{{ asset('picture/' ~ materiel.photo) }}" alt="" width="130" height="130"></td>
                 <td>{{ materiel.description }}</td>
-                <td> <input type="submit" value="Purchase"></td>
-
+                <td>  <a href="{{ path('confirmer', {'id': 1 }) }}">Achat</a></td>
+               <td><a href="{{ path('materiel_show', {'id': materiel.id}) }}"> Show </a></td>
             </tr>
         {% else %}
             <tr>
@@ -34,4 +51,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <form method="post" action="{{ path('rechercheP') }}">
+        <input type="text" name="recherche"> <input type="submit" value="rechercher">
+    </form>
 {% endblock %}
