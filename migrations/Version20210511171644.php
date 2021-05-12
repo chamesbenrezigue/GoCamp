@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210510085525 extends AbstractMigration
+final class Version20210511171644 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -29,6 +29,7 @@ final class Version20210510085525 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C67F0C0D4 FOREIGN KEY (idclient_id) REFERENCES client (id)');
         $this->addSql('CREATE INDEX IDX_9474526CD0497A00 ON comment (idmateriel_id)');
         $this->addSql('CREATE INDEX IDX_9474526C67F0C0D4 ON comment (idclient_id)');
+        $this->addSql('ALTER TABLE material CHANGE nbrmatrres nbrmatrres INT NOT NULL, CHANGE image image VARCHAR(255) NOT NULL, CHANGE updated_at updated_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE materiel ADD idclient_id INT DEFAULT NULL, ADD photo VARCHAR(255) DEFAULT NULL, DROP image');
         $this->addSql('ALTER TABLE materiel ADD CONSTRAINT FK_18D2B09167F0C0D4 FOREIGN KEY (idclient_id) REFERENCES client (id)');
         $this->addSql('CREATE INDEX IDX_18D2B09167F0C0D4 ON materiel (idclient_id)');
@@ -48,6 +49,7 @@ final class Version20210510085525 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('CREATE INDEX IDX_9474526CA76ED395 ON comment (user_id)');
         $this->addSql('CREATE INDEX IDX_9474526C71F7E88B ON comment (event_id)');
+        $this->addSql('ALTER TABLE material CHANGE nbrmatrres nbrmatrres INT DEFAULT NULL, CHANGE image image VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`, CHANGE updated_at updated_at DATETIME DEFAULT NULL');
         $this->addSql('ALTER TABLE materiel DROP FOREIGN KEY FK_18D2B09167F0C0D4');
         $this->addSql('DROP INDEX IDX_18D2B09167F0C0D4 ON materiel');
         $this->addSql('ALTER TABLE materiel ADD image VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_unicode_ci`, DROP idclient_id, DROP photo');
