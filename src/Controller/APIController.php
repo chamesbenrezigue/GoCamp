@@ -117,7 +117,7 @@ class APIController extends AbstractController
     /**
      * @Route("/reservationMaterial/{id}", name="apiMaterialreservation", methods={"GET","POST"})
      */
-    public function new(Request $request,$id,NormalizerInterface $normalizer): Response
+    public function newMaterial(Request $request,$id,NormalizerInterface $normalizer): Response
     {
         $materialReservation = new MaterialReservation();
         $entityManager = $this->getDoctrine()->getManager();
@@ -126,8 +126,9 @@ class APIController extends AbstractController
         $materialReservation->setUser($acn);
         $materialReservation->setMaterial($abn);
         $dt=new \DateTime($request->get('dateStart'));
+        $de=new \DateTime($request->get('dateEnd'));
         $materialReservation->setDateStart($dt);
-        $materialReservation->setDateEnd(new \DateTime($request->get('dateEnd')));
+        $materialReservation->setDateEnd($de);
         $bx = $entityManager->getRepository(Material::class)->find($id)->getnbrmatrres();
         $cx = $entityManager->getRepository(Material::class)->find($id)->getQuantity();
         if($cx>$bx){
@@ -148,4 +149,73 @@ class APIController extends AbstractController
         ]);
         return new Response(json_encode($jsonContent));
     }
+    /**
+     * @Route("/RentingMaterial/{id}", name="Api_material_show_front", methods={"GET"})
+     */
+    public function show(Material $material,$id,NormalizerInterface $normalizer): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $Data = $entityManager->getRepository(Material::class)->find($id);
+
+        $jsonContent= $normalizer->normalize($Data,'json',[
+            'circular_reference_handler'=>function($object){
+                return$object->getId();
+            }
+        ]);
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/ListReservations/{id}", name="api_material_reservation_show_front", methods={"GET"})
+     */
+    public function ListReservation(NormalizerInterface $normalizer,$id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $Data = $entityManager->getRepository(MaterialReservation::class)->findBy(['user' => $user]);
+        $data = array();
+        $i = 0;
+        foreach ($Data as $d) {
+            $data[$i] = array(
+                'id' => $d->getId(),
+                'dateStart' => $d->getDateStart(),
+                'dateEnd' => $d->getDateEnd(),
+                'material_id' => $d->getMaterial()->getId(),
+                'user_id' => $d->getUser()->getId(),
+            );
+            $i++;
+        }
+
+        $jsonContent = $normalizer->normalize($data, 'json', [
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]);
+            return new Response(json_encode($jsonContent));
+        }
+
+    /**
+     * @Route("/deleteReservationMaterial/{id}", name="api_material_reservation_delete_front", methods={"GET"})
+     */
+    public function delete(Request $request,NormalizerInterface $normalizer,$id): Response
+    {
+            $entityManager = $this->getDoctrine()->getManager();
+        $materialReservation= $entityManager->getRepository(MaterialReservation::class)->find($id);
+            $ax = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->setAvailability(true);
+            $bx = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->getNbrmatrres();
+            $cx = $entityManager->getRepository(Material::class)->find($materialReservation->getMaterial())->setNbrmatrres($bx-1);
+
+            $entityManager->persist($ax,$cx);
+            $entityManager->remove($materialReservation);
+            $entityManager->flush();
+
+        $jsonContent = $normalizer->normalize($materialReservation, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+        return new Response(json_encode($jsonContent));
+
+    }
+
 }

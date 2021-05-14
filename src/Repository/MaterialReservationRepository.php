@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\MaterialReservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Client\Curl\User;
 
 /**
  * @method MaterialReservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -60,4 +61,6 @@ class MaterialReservationRepository extends ServiceEntityRepository
             ;
 
     }
+
+
 }
