@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Entity\Material;
 use App\Entity\MaterialReservation;
+use App\Entity\DateSearch;
 
 /**
  * @Route("/api", name="api")
@@ -218,7 +219,7 @@ class APIController extends AbstractController
 
     }
     /**
-     * @Route("/profil_edit", name="edit_profil")
+     * @Route("/profil_edit", name="api_edit_profil")
      */
     public function editPrfoil(Request $request,NormalizerInterface $normalizer): Response
     {
@@ -246,5 +247,59 @@ class APIController extends AbstractController
         return new Response(json_encode($jsonContent));
 
     }
+    /**
+     * @Route("/reservation_edit", name="api_reservation_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, NormalizerInterface $normalizer): Response
+    {             $entityManager = $this->getDoctrine()->getManager();
+        $materialReservation = $entityManager->getRepository(MaterialReservation::class)->find($request->get('id'));
 
+        $materialReservation->setdateStart(new \DateTime($request->get('dateStart')));
+        $materialReservation->setdateEnd(new \DateTime($request->get('dateEnd')));
+
+        $entityManager->persist($materialReservation);
+        $entityManager->flush();
+
+        $jsonContent = $normalizer->normalize($materialReservation, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    /**
+     * @Route("/rechercheReservations", name="api_material_index", methods={"GET","POST"})
+     */
+    public function index(NormalizerInterface $normalizer,Request $request): Response
+
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = $entityManager->getRepository(User::class)->find($request->get('id_user'));
+//recherche
+            $minDate =new \DateTime($request->get('dateStart'));
+            $maxDate =new \DateTime($request->get('dateEnd'));
+            $reservation = $this->getDoctrine()->getRepository(MaterialReservation::class)->findByDateRange($minDate,$maxDate,$user);
+
+        $data = array();
+        $i = 0;
+        foreach ($reservation as $d) {
+            $data[$i] = array(
+                'id' => $d->getId(),
+                'dateStart' => $d->getDateStart(),
+                'dateEnd' => $d->getDateEnd(),
+                'material_id' => $d->getMaterial()->getId(),
+                'user_id' => $d->getUser()->getId(),
+            );
+            $i++;
+        }
+        $jsonContent = $normalizer->normalize($data, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+        return new Response(json_encode($jsonContent));
+    }
 }
