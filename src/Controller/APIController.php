@@ -217,5 +217,34 @@ class APIController extends AbstractController
         return new Response(json_encode($jsonContent));
 
     }
+    /**
+     * @Route("/profil_edit", name="edit_profil")
+     */
+    public function editPrfoil(Request $request,NormalizerInterface $normalizer): Response
+    {
+
+            $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($request->get('id'));
+        $user->setEmail($request->get('email'));
+        $user->setFirstName($request->get('firstName'));
+        $user->setLastName($request->get('lastName'));
+        $user->setAdress($request->get('adress'));
+        $user->setSexe($request->get('sexe'));
+        $user->setPhone($request->get('phone'));
+
+
+
+        $entityManager->persist($user);
+            $entityManager->flush();
+
+
+        $jsonContent = $normalizer->normalize($user, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+        return new Response(json_encode($jsonContent));
+
+    }
 
 }
