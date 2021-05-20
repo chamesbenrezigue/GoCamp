@@ -20,12 +20,7 @@ class Event
      * @ORM\Column(name="id", type="integer")
      */
     private $id;
-    /**
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="event")
-     *
-     */
-    private $comment;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InscriptionEvent", mappedBy="event")
      */
@@ -112,7 +107,6 @@ class Event
     {
         $this->setStart(new \DateTime());
         $this->setEnd(new \DateTime());
-        $this->comment = new ArrayCollection();
         $this->inscriptionEvent = new ArrayCollection();
 
 
@@ -127,21 +121,8 @@ class Event
     {
         $this->id = $id;
     }
-    /**
-     * @return mixed
-     */
-    public function getComment()
-    {
-        return $this->comment;
-    }
 
-    /**
-     * @param mixed $comment
-     */
-    public function setComment($comment)
-    {
-        $this->comment = $comment;
-    }
+
 
     /**
      * @return mixed
@@ -235,27 +216,9 @@ class Event
         $this->image = $image;
     }
 
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comment->contains($comment)) {
-            $this->comment[] = $comment;
-            $comment->setEvent($this);
-        }
 
-        return $this;
-    }
 
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comment->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getEvent() === $this) {
-                $comment->setEvent(null);
-            }
-        }
 
-        return $this;
-    }
 
     public function addInscriptionEvent(InscriptionEvent $inscriptionEvent): self
     {

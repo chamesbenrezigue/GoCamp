@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Entity\Material;
 use App\Entity\MaterialReservation;
 use App\Entity\DateSearch;
+use App\Entity\Reservation;
 
 /**
  * @Route("/api", name="api")
@@ -45,45 +47,45 @@ class APIController extends AbstractController
             return new JsonResponse("pass inco", 400);
         }
     }
-        /**
-         * @Route("/register", name="apiregister")
-         */
-        public function Registration(Request $request ,NormalizerInterface $normalizer ,EntityManagerInterface  $entityManager ,UserPasswordEncoderInterface  $encoder, \Swift_Mailer $mailer)
-        {
-            $user =new User();
+    /**
+    * @Route("/register", name="apiregister")
+    */
+    public function Registration(Request $request ,NormalizerInterface $normalizer ,EntityManagerInterface  $entityManager ,UserPasswordEncoderInterface  $encoder, \Swift_Mailer $mailer)
+    {
+        $user =new User();
 
-            $user->setFirstName($request->get('firstName'));
-            $user->setLastName($request->get('lastName'));
-            $user->setEmail($request->get('email'));
-            $hash= $encoder->encodePassword($user,$request->get('password'));
-            $user->setPassword($hash);
-            // TOKEN
-            $user->setActivationToken(md5(uniqid()));
+        $user->setFirstName($request->get('firstName'));
+        $user->setLastName($request->get('lastName'));
+        $user->setEmail($request->get('email'));
+        $hash= $encoder->encodePassword($user,$request->get('password'));
+        $user->setPassword($hash);
+        // TOKEN
+        $user->setActivationToken(md5(uniqid()));
 
-            $entityManager ->persist($user);
-            $entityManager ->flush();
+        $entityManager ->persist($user);
+        $entityManager ->flush();
 
-            $message = (new \Swift_Message('Activation de votre compte'))
-                //
-                ->setFrom('GoCamp315@gmail.com')
-                //
-                ->setTo($user->getEmail())
-                //
-                ->setBody(
-                    $this->renderView('email/activation.html.twig',[ 'token' => $user->getActivationToken()]),
-                    "text/html"
-                );
-            //on envoie l'email
-            $mailer->send($message);
+        $message = (new \Swift_Message('Activation de votre compte'))
+            //
+            ->setFrom('GoCamp315@gmail.com')
+            //
+            ->setTo($user->getEmail())
+            //
+            ->setBody(
+                $this->renderView('email/activation.html.twig',[ 'token' => $user->getActivationToken()]),
+                "text/html"
+            );
+        //on envoie l'email
+        $mailer->send($message);
 
-            $jsonContent= $normalizer->normalize($user,'json',[
-                'circular_reference_handler'=>function($object){
-                    return$object->getId();
-                }
+        $jsonContent= $normalizer->normalize($user,'json',[
+            'circular_reference_handler'=>function($object){
+                return$object->getId();
+            }
 
-            ]);
+        ]);
 
-            return new Response(json_encode($jsonContent));
+        return new Response(json_encode($jsonContent));
 
 
     }
@@ -302,5 +304,146 @@ class APIController extends AbstractController
         ]);
         return new Response(json_encode($jsonContent));
     }
+
+
+            /**
+             * @Route("/listEvent", name="event_front")
+             */
+            public function ListEvent(NormalizerInterface $normalizer): Response{
+            $entityManager = $this->getDoctrine()->getManager();
+            $repository = $entityManager->getRepository(Event::class)->findAll();
+
+            $jsonContent= $normalizer->normalize($repository,'json',[
+                'circular_reference_handler'=>function($object){
+                    return$object->getId();
+                }
+            ]);
+            return new Response(json_encode($jsonContent));
+
+
+        }
+    /**
+     * @Route("front/{id}", name="event_show", methods={"GET"})
+     */
+    public function showR(NormalizerInterface $normalizer,$id): Response
+    {
+
+        $repository=$this->getDoctrine()->getRepository(Event::class)->find($id);
+
+        $jsonContent= $normalizer->normalize($repository,'json',[
+            'circular_reference_handler'=>function($object){
+                return$object->getId();
+            }
+
+        ]);
+        return new Response(json_encode($jsonContent));
+        // return $this->render('event_front/show.html.twig', [
+        //  'event' => $event,
+        // ]);
+
+    }
+    public function CreaterReservationAction(Request $request, \Swift_Mailer $mailer)
+    {
+
+        $a= new Reservation();
+
+        $repository=$this->getDoctrine()->getRepository(Event::class)->find($request->get('id'));
+        $a->setNom($request->get('nom'));
+        $a->setEvent($repository->getTitle());
+        $a->setPrenom($request->get('prenom'));
+        $a->setNbrplace($request->get('nbrplace'));
+        //$message = (new \Swift_Message('votre reservation est fini'))
+          //  ->setFrom('GoCamp315@gmail.com')
+
+          //  ->setTo('br.chames97@gmail.com')
+           // ->setBody(
+           //     $this->renderView(
+              //      'admin/event_management/confirmation_mail.html.twig'
+              //  ),
+               // 'text/html'
+           // );
+        //$mailer->send($message);
+        $message = (new \Swift_Message('votre reservation est fini'))
+            //
+            ->setFrom('GoCamp315@gmail.com')
+            //
+            ->setTo('br.chames97@gmail.com')
+            //
+            ->setBody(
+                $this->renderView('admin/event_management/confirmation_mail.html.twig'),
+                "text/html"
+            );
+        //on envoie l'email
+        $mailer->send($message);
+
+
+        $this->getDoctrine()->getManager()->persist($a);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+    }
+
+    public function AllReservationAction()
+    {
+
+        $ar = $this->getDoctrine()->getManager()
+            ->getRepository('App:Reservation')
+            ->findAll();
+        $normalizer = new ObjectNormalizer ();
+
+        $normalizer -> setCircularReferenceHandler ( function ( $ar ) {
+            return $ar -> getId ();
+        });
+        $serializer = new Serializer([$normalizer]);
+        $formatted = $serializer->normalize($ar , null , [ ObjectNormalizer::ATTRIBUTES => ['id','nom','prenom','approuve','nbrplace','event'=>['id','nom','prenom','approuve','nbrplace','event']]]);
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("/res/front", name="res_front")
+     * @param ReservationRepository $reservationRepository
+     * @return Response
+     */
+    public function indexTT(NormalizerInterface $normalizer): Response{
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $repository = $entityManager->getRepository('App:Reservation')->findAll();
+
+
+        //Json
+        $jsonContent= $normalizer->normalize($repository,'json',[
+            'circular_reference_handler'=>function($object){
+                return$object->getId();
+            }
+
+        ]);
+        //return $this->render('comment/index.html.twig', [
+        //'comments' => $jsonContent,
+        //]);
+        return new Response(json_encode($jsonContent));
+
+
+        // return $this->render('event_front/index.html.twig', [
+        // 'events' => $eventRepository->findAll(),]);
+    }
+    public function DeleteReservationAction(Request $request){
+
+        $id = $request->get('id');
+        $em=$this->getDoctrine()->getManager();
+        $reservation=$em->getRepository('App:Reservation')->find($id);
+
+        $this->getDoctrine()->getManager()->remove($reservation);
+        $this->getDoctrine()->getManager()->flush();
+        return new JsonResponse();
+    }
+
+
+
+
+
+
+
+
 
 }
