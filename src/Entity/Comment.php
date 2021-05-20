@@ -33,9 +33,27 @@ class Comment
     private $idmateriel;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="comments")
+     * @ORM\Column(name="userName", type="string", length=255)
      */
-    private $idclient;
+    private $userName;
+
+    /**
+     * @return mixed
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    /**
+     * @param mixed $userName
+     */
+    public function setUserName($userName): void
+    {
+        $this->userName = $userName;
+    }
+
+
 
     public function getId(): ?int
     {

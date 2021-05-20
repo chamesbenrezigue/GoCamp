@@ -20,7 +20,7 @@
     <h1>Materiel</h1>
 
     <table class="table">
-        <form method="post" action="{{ path('rechercheP') }}">
+        <form method="post" action="{{ path('recherchefront') }}">
             <input type="text" name="recherche"> <input type="submit" value="rechercher">
         </form>
         <thead>
@@ -51,7 +51,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <form method="post" action="{{ path('rechercheP') }}">
+    <form method="post" action="{{ path('recherchefront') }}">
         <input type="text" name="recherche"> <input type="submit" value="rechercher">
     </form>
 {% endblock %}

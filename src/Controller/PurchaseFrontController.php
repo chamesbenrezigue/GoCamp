@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Materiel;
 use App\Form\CommentType;
-use App\Repository\ClientRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MaterielRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +19,31 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class PurchaseFrontController extends AbstractController
 {
     /**
+     * @Route("/materiel/view", name ="Allmateriel", methods={"GET"})
+     * @param NormalizerInterface $Normalizer
+     * @return Response
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+
+     */
+    public function AllmaterielJSON (NormalizerInterface $Normalizer)
+    {
+        $repository=$this->getDoctrine()->getRepository(Materiel::class);
+        $mat=$repository->findAll();
+
+        $jsonContent = $Normalizer->normalize($mat, 'json',['groups'=>'post:read']);
+        /* return $this->render('user/allusersJSON.html.twig',[
+             'data' => $jsonContent,
+         ]);**/
+        return new Response(json_encode($jsonContent));;
+
+    }
+    /**
      * @Route("/purchase/front", name="purchase_front")
      * @param MaterielRepository $materielRepository
      * @return Response
      */
 
-    public function index(MaterielRepository $materielRepository,ClientRepository $clientRepository): Response
+    public function index(MaterielRepository $materielRepository): Response
     {/*
       $recruteurCheck = $repository->findOneBy(['mail' => $recruteur->getMail()]);
             if($recruteur->getMdp()==$recruteurCheck->getMdp())
@@ -62,20 +80,20 @@ class PurchaseFrontController extends AbstractController
      * @param Materiel $materiel
      * @param CommentRepository $commentRepository
      * @param $id
-     * @param ClientRepository $repository
      * @return Response
      */
 
-    public function show (Request $request,Materiel $materiel,CommentRepository $commentRepository,$id,ClientRepository $repository): Response
+    public function show (Request $request,Materiel $materiel,CommentRepository $commentRepository,$id): Response
     {
+        $user = $this->getUser();
+
         $comment = new Comment();
         $form1 = $this->createForm(CommentType::class,$comment);
         $form1->handleRequest($request);
         if ($form1->isSubmitted() && $form1->isValid()) {
             $comment->setCreatedAt(new \DateTime())
                 ->setIdmateriel($materiel);
-            $value=$repository->find($this->get('session')->get('id'));
-            $comment->setIdclient($value);
+            $comment->setUserName($user->getFirstName());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
@@ -92,59 +110,39 @@ class PurchaseFrontController extends AbstractController
     /**
      * @Route("confirmer/{id}",name="confirmer", methods={"GET","POST"})
      */
-    public function confirmer(\Swift_Mailer $mailer,$id,ClientRepository $clientRepository): Response
+    public function confirmer(\Swift_Mailer $mailer,$id): Response
     {
 
-        $val = $clientRepository->find($id);
+        $val = $this->getUser();
+
         // Configure Dompdf according to your needs
-        $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'Arial');
 
-        // Instantiate Dompdf with our options
-        $dompdf = new Dompdf($pdfOptions);
-        // Retrieve the HTML generated in our twig file
-        $html = $this->renderView('purchase_front/materiel/listP.html.twig', [
-            'clients' => $val,
-        ]);
-
-        // Load HTML to Dompdf
-        $dompdf->loadHtml($html);
-
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-        $dompdf->setPaper('A3', 'portrait');
-
-        // Render the HTML as PDF
-        $dompdf->render();
-        // Store PDF Binary Data
-        $output = $dompdf->output();
-
-        // In this case, we want to write the file in the public directory
-        $publicDirectory = $this->getParameter('upload_directory');
-        // e.g /var/www/project/public/mypdf.pdf
-        $pdfFilepath =  $publicDirectory . '/mypdf.pdf';
-
-        // Write file to the desired path
-        file_put_contents($pdfFilepath, $output);
-
-        // Send some text response
-
-        $message = (new \Swift_Message('Confirmation for offer'))
-            ->setFrom('noreplay.espritwork@gmail.com')
-            ->setTo($val->getMail())
+        $message = (new \Swift_Message('confirmation achat '))
+            //
+            ->setFrom('GoCamp315@gmail.com')
+            //
+            ->setTo($val->getEmail())
+            //
             ->setBody(
-                $this->renderView(
-                    'purchase_front/materiel/confirm.html.twig'
-                    , [
-                    'clients' => $val,
-                ]),
-                'text/html'
-            )
-            ->attach(\Swift_Attachment::fromPath($pdfFilepath))
-        ;
+                $this->renderView('email/mailerDhia.html.twig'),
+                "text/html"
+            );
+        //on envoie l'email
         $mailer->send($message);
         return $this->redirectToRoute('purchase_front');
     }
-
+    /**
+     * @Route("/recherche/front", name="recherchefront")
+     * @param Request $request
+     * @return mixed
+     */
+    public function rechNomfront (Request $request){
+        $data=$request->get('recherche');
+        $listmateriel =$this->getDoctrine()
+            ->getRepository(Materiel::class)
+            ->rechercheParNom($data);
+        return $this->render('purchase_front/materiel/index.html.twig',['materiels'=>$listmateriel]);
+    }
 
 
 

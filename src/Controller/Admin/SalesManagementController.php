@@ -13,13 +13,13 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 
-
 /**
- * @Route("/Admin")
- */
+ * @Route("Admin")
+**/
+
 class SalesManagementController extends AbstractController
 {
-    /**
+   /**
      * @Route("/sales/management", name="sales_management")
      * @param MaterielRepository $materielRepository
      * @return Response
@@ -32,7 +32,7 @@ class SalesManagementController extends AbstractController
     }
 
     /**
-     * @Route("/Sales/new", name="materiel_management_new", methods={"GET","POST"})
+     * @Route("/sales/new", name="materiel_management_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -139,11 +139,11 @@ class SalesManagementController extends AbstractController
         return $this->redirectToRoute('sales_management');
     }
     /**
-     * @Route("/rechercheP", name="rechercheP")
+     * @Route("/recherche/back", name="rechercheback")
      * @param Request $request
      * @return mixed
      */
-    public function rechercheParNom (Request $request){
+    public function rechNomback (Request $request){
         $data=$request->get('recherche');
         $listmateriel =$this->getDoctrine()
             ->getRepository(Materiel::class)

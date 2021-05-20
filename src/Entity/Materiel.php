@@ -47,10 +47,6 @@ class Materiel
      */
     private $photo;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="idmateriels")
-     */
-    private $idclient;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="idmateriel")
@@ -116,17 +112,7 @@ class Materiel
         return $this;
     }
 
-    public function getIdclient(): ?Client
-    {
-        return $this->idclient;
-    }
 
-    public function setIdclient(?Client $idclient): self
-    {
-        $this->idclient = $idclient;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Comment[]
