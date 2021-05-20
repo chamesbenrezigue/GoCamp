@@ -438,7 +438,40 @@ class APIController extends AbstractController
         return new JsonResponse();
     }
 
+    /**
+     * @Route("/sales/confirmer",name="confirmer", methods={"GET"})
+     */
+    public function confirmer(\Swift_Mailer $mailer,Request $request,NormalizerInterface $normalizer ): Response
+    {
+        $val =$this->getDoctrine()->getRepository(User::class)->find($request->get('id'));
 
+
+        // Configure Dompdf according to your needs
+
+        $message = (new \Swift_Message('confirmation achat '))
+            //
+            ->setFrom('GoCamp315@gmail.com')
+            //
+            ->setTo($val->getEmail())
+            //
+            ->setBody(
+                $this->renderView('email/mailerDhia.html.twig',[ 'firstName' => $val->getFirstName()]),
+                "text/html"
+            );
+        //on envoie l'email
+        $mailer->send($message);
+
+        $jsonContent= $normalizer->normalize($mailer,'json',[
+            'circular_reference_handler'=>function($object){
+                return$object->getId();
+            }
+
+        ]);
+        //return $this->render('comment/index.html.twig', [
+        //'comments' => $jsonContent,
+        //]);
+        return new Response(json_encode($jsonContent));
+    }
 
 
 
