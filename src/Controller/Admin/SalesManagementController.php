@@ -13,6 +13,10 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 
+
+/**
+ * @Route("/Admin")
+ */
 class SalesManagementController extends AbstractController
 {
     /**
@@ -28,7 +32,7 @@ class SalesManagementController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="materiel_management_new", methods={"GET","POST"})
+     * @Route("/Sales/new", name="materiel_management_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
