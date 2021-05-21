@@ -120,7 +120,7 @@ class APIController extends AbstractController
     /**
      * @Route("/reservationMaterial/{id}", name="apiMaterialreservation", methods={"GET","POST"})
      */
-    public function newMaterial(Request $request,$id,NormalizerInterface $normalizer): Response
+    public function newMaterial(Request $request,$id,NormalizerInterface $normalizer,\Swift_Mailer $mailer): Response
     {
         $materialReservation = new MaterialReservation();
         $entityManager = $this->getDoctrine()->getManager();
@@ -145,6 +145,19 @@ class APIController extends AbstractController
         }
         $entityManager->persist($materialReservation,$ax,$dx);
         $entityManager->flush();
+
+        $message = (new \Swift_Message('Réservation Réussie '))
+            //
+            ->setFrom('GoCamp315@gmail.com')
+            //
+            ->setTo($acn->getEmail())
+            //
+            ->setBody(
+                $this->renderView('email/chaimaMailer.html.twig',[ 'firstName' => $acn->getFirstName()]),
+                "text/html"
+            );
+        //on envoie l'email
+        $mailer->send($message);
         $jsonContent= $normalizer->normalize($materialReservation,'json',[
             'circular_reference_handler'=>function($object){
                 return$object->getId();
